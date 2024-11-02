@@ -29,5 +29,5 @@
 		borderClass
 	)}
 >
-	{cell.value}
+	{cell.value || ''}
 </div>

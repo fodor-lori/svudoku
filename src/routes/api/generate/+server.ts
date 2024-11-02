@@ -1,9 +1,14 @@
+import { SudokuGenerator } from '$lib/SudokuGenerator';
 import { json, type RequestHandler } from '@sveltejs/kit';
-import { Board } from '$lib/Board';
 
 export const GET: RequestHandler = () => {
-	const size = 9;
-	const board = new Board();
-	board.generate();
-	return json({ size, board });
+	const generator = new SudokuGenerator();
+
+	const { solution, puzzle } = generator.generate();
+
+	if (!solution || !puzzle) {
+		return json({ error: 'Failed to generate board' }, { status: 500 });
+	}
+
+	return json({ solution, puzzle });
 };
