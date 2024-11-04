@@ -4,6 +4,10 @@
 	let { children } = $props();
 </script>
 
+<svelte:head>
+	<title>Svudoku</title>
+</svelte:head>
+
 <ModeWatcher />
 <main>
 	{@render children()}
