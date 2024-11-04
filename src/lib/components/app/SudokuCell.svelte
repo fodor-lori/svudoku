@@ -1,33 +1,52 @@
 <script lang="ts">
 	import { Cell } from '$lib/Cell';
 	import { getGridState } from '$lib/state.svelte';
-	import { cn } from '$lib/utils';
+	import { cn, isSameBox, numberColors } from '$lib/utils';
 
 	type Props = {
 		cell: Cell;
+		solution: number;
 	};
 
-	const { cell }: Props = $props();
+	const { cell, solution }: Props = $props();
 	const gridState = getGridState();
 
-	const numberColors: Record<number, string> = {
-		1: 'text-blue-600',
-		2: 'text-green-600',
-		3: 'text-red-600',
-		4: 'text-yellow-600',
-		5: 'text-orange-600',
-		6: 'text-teal-600',
-		7: 'text-pink-600',
-		8: 'text-indigo-600',
-		9: 'text-amber-600'
-	};
+	let isCorrect = $state(false);
+	let background = $state('');
+
+	$effect(() => {
+		isCorrect = cell.value === solution;
+	});
+
+	$effect(() => {
+		if (!gridState.selectedCell) {
+			return;
+		}
+
+		if (cell.value && !isCorrect) {
+			background = 'bg-red-950';
+		} else if (gridState.selectedCell == cell) {
+			background = 'bg-slate-700';
+		} else if (cell.value !== 0 && cell.value === gridState.selectedCell?.value) {
+			background = 'bg-slate-800';
+		} else if (
+			cell.row === gridState.selectedCell?.row ||
+			cell.col === gridState.selectedCell?.col ||
+			isSameBox(cell, gridState.selectedCell)
+		) {
+			background = 'bg-slate-900';
+		} else {
+			background = '';
+		}
+	});
 </script>
 
 <button
 	class={cn(
 		'flex h-full w-full cursor-default items-center justify-center text-[36px] outline-none',
-		gridState.selectedCell == cell ? 'bg-slate-700' : '',
-		cell.value ? numberColors[cell.value] : ''
+		cell.value && numberColors[cell.value],
+		!isCorrect && 'text-red-500',
+		background || ''
 	)}
 	onclick={() => gridState.setSelectedCell(cell)}
 	tabindex={-1}

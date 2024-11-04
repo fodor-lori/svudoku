@@ -16,13 +16,10 @@
 	}
 </script>
 
-<main>
-	<h1>Sudoku</h1>
-	<div class="flex flex-row gap-4">
-		{#await getGrid()}
-			<p>Loading...</p>
-		{:then}
-			<SudokuGrid puzzle={sudoku.puzzle} solution={sudoku.solution} />
-		{/await}
-	</div>
-</main>
+<div class="flex h-full flex-col items-center justify-center gap-4 p-4">
+	{#await getGrid()}
+		<p>Loading...</p>
+	{:then}
+		<SudokuGrid puzzle={sudoku.puzzle} solution={sudoku.solution} />
+	{/await}
+</div>

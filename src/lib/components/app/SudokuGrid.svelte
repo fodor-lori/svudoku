@@ -67,8 +67,7 @@
 
 					<td
 						class={cn(
-							'h-20 w-20 p-0 outline-none',
-							'border-2 border-gray-800',
+							'h-20 w-20 border-2 border-gray-800 p-0 outline-none',
 							isRightBox && !isLastCol && 'border-r-gray-500',
 							isBottomBox && !isLastRow && 'border-b-gray-500',
 							isFirstRow && 'border-t-gray-500',
@@ -77,7 +76,7 @@
 							isLastCol && 'border-r-gray-500'
 						)}
 					>
-						<SudokuCell {cell} />
+						<SudokuCell {cell} solution={solution.cells[rowIndex][colIndex].value} />
 					</td>
 				{/each}
 			</tr>
