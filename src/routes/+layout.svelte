@@ -8,7 +8,5 @@
 	<title>Svudoku</title>
 </svelte:head>
 
-<ModeWatcher />
-<main>
-	{@render children()}
-</main>
+<ModeWatcher defaultMode="dark" />
+{@render children()}
