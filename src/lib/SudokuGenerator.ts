@@ -1,58 +1,55 @@
-import { Board } from './Board';
+import { Grid } from './Grid';
 import { Cell } from './Cell';
 import { SudokuSolver } from './SudokuSolver';
 
 export type Sudoku = {
-	solution: Board;
-	puzzle: Board;
+	solution: Grid;
+	puzzle: Grid;
 };
 
 export class SudokuGenerator {
-	private solution: Board;
-	private puzzle: Board;
+	private solution: Grid;
+	private puzzle: Grid;
 	private solver: SudokuSolver;
 	private candidates: Set<number>[][];
 
 	constructor() {
-		this.solution = new Board();
-		this.puzzle = new Board();
+		this.puzzle = new Grid();
+		this.solution = new Grid();
 		this.solver = new SudokuSolver();
 		this.candidates = [];
 	}
 
 	public generate(): Sudoku {
-		this.initializeEmptyBoard();
-		this.generateFilledBoard();
+		this.initializeEmptyGrid();
+		this.generateFilledGrid();
 
-		for (const row of this.solution.cells) {
-			this.puzzle.cells.push([]);
-			for (const cell of row) {
-				this.puzzle.cells[cell.row].push(new Cell(cell.row, cell.col, cell.value));
-			}
-		}
-
+		this.puzzle = this.solution.clone();
 		this.generatePuzzle(56, this.shuffleCells());
 
 		if (!this.solution || !this.puzzle) {
-			throw new Error('Failed to generate board');
+			throw new Error('Failed to generate Grid');
+		}
+
+		for (let row = 0; row < this.puzzle.size; row++) {
+			for (let col = 0; col < this.puzzle.size; col++) {
+				if (this.puzzle.getCell(row, col).value !== 0) {
+					this.puzzle.getCell(row, col).isGiven = true;
+				}
+			}
 		}
 
 		return { solution: this.solution, puzzle: this.puzzle };
 	}
 
-	private initializeEmptyBoard() {
-		this.solution = new Board();
-
-		this.solution.cells = Array.from({ length: this.solution.size }, (_, row) =>
-			Array.from({ length: this.solution.size }, (_, col) => new Cell(row, col))
-		);
-
+	private initializeEmptyGrid() {
+		this.solution = new Grid();
 		this.candidates = Array.from({ length: 9 }, () =>
 			Array.from({ length: 9 }, () => new Set<number>([1, 2, 3, 4, 5, 6, 7, 8, 9]))
 		);
 	}
 
-	private generateFilledBoard(): boolean {
+	private generateFilledGrid(): boolean {
 		const cell = this.findMostConstrainedCell();
 
 		if (!cell) {
@@ -69,14 +66,14 @@ export class SudokuGenerator {
 
 		for (const number of numbers) {
 			if (this.isValid(cell, number)) {
-				this.solution.cells[cell.row][cell.col].value = number;
+				this.solution.setCellValue(cell.row, cell.col, number);
 				this.candidates[cell.row][cell.col].delete(number);
 
-				if (this.generateFilledBoard()) {
+				if (this.generateFilledGrid()) {
 					return true;
 				}
 
-				this.solution.cells[cell.row][cell.col].value = 0;
+				this.solution.setCellValue(cell.row, cell.col, 0);
 				this.candidates[cell.row][cell.col].add(number);
 			}
 		}
@@ -88,7 +85,7 @@ export class SudokuGenerator {
 		cellsToRemove: number,
 		cells: Cell[],
 		cellIndex: number = 0,
-		puzzle: Board = this.puzzle
+		puzzle: Grid = this.puzzle
 	): boolean {
 		if (cellsToRemove === 0) {
 			this.puzzle = puzzle;
@@ -104,15 +101,9 @@ export class SudokuGenerator {
 			return this.generatePuzzle(cellsToRemove, cells, cellIndex + 1, puzzle);
 		}
 
-		const puzzleCopy = new Board();
-		for (const row of puzzle.cells) {
-			puzzleCopy.cells.push([]);
-			for (const cell of row) {
-				puzzleCopy.cells[cell.row].push(new Cell(cell.row, cell.col, cell.value));
-			}
-		}
+		const puzzleCopy = puzzle.clone();
 
-		puzzleCopy.cells[cell.row][cell.col].value = 0;
+		puzzleCopy.setCellValue(cell.row, cell.col, 0);
 		if (this.solver.hasUniqueSolution(puzzleCopy)) {
 			if (this.generatePuzzle(cellsToRemove - 1, cells, cellIndex + 1, puzzleCopy)) {
 				return true;
@@ -128,7 +119,7 @@ export class SudokuGenerator {
 
 		for (let row = 0; row < this.solution.size; row++) {
 			for (let col = 0; col < this.solution.size; col++) {
-				const cell = this.solution.cells[row][col];
+				const cell = this.solution.getCell(row, col);
 
 				if (cell.value !== 0) {
 					continue;
@@ -153,8 +144,8 @@ export class SudokuGenerator {
 	private isValid(cell: Cell, number: number): boolean {
 		for (let i = 0; i < this.solution.size; i++) {
 			if (
-				this.solution.cells[cell.row][i].value === number ||
-				this.solution.cells[i][cell.col].value === number
+				this.solution.getCell(cell.row, i).value === number ||
+				this.solution.getCell(i, cell.col).value === number
 			) {
 				return false;
 			}
@@ -165,7 +156,7 @@ export class SudokuGenerator {
 
 		for (let row = 0; row < this.solution.boxSize; row++) {
 			for (let col = 0; col < this.solution.boxSize; col++) {
-				if (this.solution.cells[startRow + row][startCol + col].value === number) {
+				if (this.solution.getCell(startRow + row, startCol + col).value === number) {
 					return false;
 				}
 			}

@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { Cell } from '$lib/Cell';
+	import { getGridState } from '$lib/state.svelte';
 	import { cn } from '$lib/utils';
 
 	type Props = {
 		cell: Cell;
-		borderClass?: string;
 	};
 
-	const { cell, borderClass = '' }: Props = $props();
+	const { cell }: Props = $props();
+	const gridState = getGridState();
 
 	const numberColors: Record<number, string> = {
 		1: 'text-blue-600',
@@ -22,12 +23,14 @@
 	};
 </script>
 
-<div
+<button
 	class={cn(
-		'flex h-full w-full items-center justify-center text-[36px]',
-		cell.value ? numberColors[cell.value] : '',
-		borderClass
+		'flex h-full w-full cursor-default items-center justify-center text-[36px] outline-none',
+		gridState.selectedCell == cell ? 'bg-slate-700' : '',
+		cell.value ? numberColors[cell.value] : ''
 	)}
+	onclick={() => gridState.setSelectedCell(cell)}
+	tabindex={-1}
 >
 	{cell.value || ''}
-</div>
+</button>

@@ -1,8 +1,8 @@
-import { Board } from './Board';
+import { Grid } from './Grid';
 import type { Cell } from './Cell';
 
 export class SudokuSolver {
-	private board: Board = new Board();
+	private grid: Grid = new Grid();
 
 	private rows: Set<number>[] = [];
 	private cols: Set<number>[] = [];
@@ -11,12 +11,13 @@ export class SudokuSolver {
 	private emptyCells: Cell[] = [];
 	private solutionCount: number = 0;
 
-	public hasUniqueSolution(board: Board): boolean {
-		this.board = board;
+	public hasUniqueSolution(grid: Grid): boolean {
+		this.grid = grid;
 		this.solutionCount = 0;
-		this.initializeSolver();
 
+		this.initializeSolver();
 		this.solve();
+
 		return this.solutionCount === 1;
 	}
 
@@ -29,13 +30,13 @@ export class SudokuSolver {
 
 		for (let row = 0; row < 9; row++) {
 			for (let col = 0; col < 9; col++) {
-				const value = this.board.cells[row][col].value;
+				const value = this.grid.getCell(row, col).value;
 				if (value !== 0) {
 					this.rows[row].add(value);
 					this.cols[col].add(value);
 					this.boxes[this.getBoxIndex(row, col)].add(value);
 				} else {
-					this.emptyCells.push(this.board.cells[row][col]);
+					this.emptyCells.push(this.grid.getCell(row, col));
 				}
 			}
 		}

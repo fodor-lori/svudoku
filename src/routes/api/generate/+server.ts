@@ -7,8 +7,8 @@ export const GET: RequestHandler = () => {
 	const { solution, puzzle } = generator.generate();
 
 	if (!solution || !puzzle) {
-		return json({ error: 'Failed to generate board' }, { status: 500 });
+		return json({ error: 'Failed to generate Grid' }, { status: 500 });
 	}
 
-	return json({ solution, puzzle });
+	return json({ puzzle, solution });
 };
