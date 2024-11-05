@@ -52,7 +52,7 @@
 
 <svelte:window onkeydown={handleKeyDown} />
 
-<table class="border-collapse border-spacing-0 outline-none">
+<table class="h-full w-full table-fixed border-collapse border-spacing-0 text-center outline-none">
 	<tbody>
 		{#each puzzle.cells as row, rowIndex}
 			{@const isBottomBox = rowIndex % 3 === 2}
@@ -67,7 +67,7 @@
 
 					<td
 						class={cn(
-							'h-20 w-20 border-2 border-gray-800 p-0 outline-none',
+							'border-2 border-gray-800 p-0 outline-none',
 							isRightBox && !isLastCol && 'border-r-gray-500',
 							isBottomBox && !isLastRow && 'border-b-gray-500',
 							isFirstRow && 'border-t-gray-500',

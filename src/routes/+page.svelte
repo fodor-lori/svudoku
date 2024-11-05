@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { Grid } from '$lib/Grid';
-	import SudokuGrid from '$lib/components/app/SudokuGrid.svelte';
 	import type { Sudoku } from '$lib/SudokuGenerator';
+	import ControlPanel from '$lib/components/app/ControlPanel.svelte';
+	import SudokuGrid from '$lib/components/app/SudokuGrid.svelte';
+	import SudokuHeader from '$lib/components/app/SudokuHeader.svelte';
 
 	let sudoku: Sudoku = $state({
 		solution: new Grid(),
@@ -16,10 +18,20 @@
 	}
 </script>
 
-<div class="flex h-full flex-col items-center justify-center gap-4 p-4">
-	{#await getGrid()}
-		<p>Loading...</p>
-	{:then}
-		<SudokuGrid puzzle={sudoku.puzzle} solution={sudoku.solution} />
-	{/await}
+<div class="grid min-h-screen grid-cols-[.5fr_auto_1fr] grid-rows-[auto_1fr] gap-2 p-4">
+	<div class="col-start-2 row-start-1">
+		<SudokuHeader />
+	</div>
+	<div
+		class="col-start-2 row-start-2 aspect-square max-h-[calc(100vh-8rem)] items-center justify-center"
+	>
+		{#await getGrid()}
+			<p>Loading...</p>
+		{:then}
+			<SudokuGrid puzzle={sudoku.puzzle} solution={sudoku.solution} />
+		{/await}
+	</div>
+	<div class="col-start-3 row-start-2">
+		<ControlPanel />
+	</div>
 </div>

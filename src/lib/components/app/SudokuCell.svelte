@@ -45,7 +45,7 @@
 	class={cn(
 		'flex h-full w-full cursor-default items-center justify-center text-[36px] outline-none',
 		cell.value && numberColors[cell.value],
-		!isCorrect && 'text-red-500',
+		!isCorrect && 'text-red-600',
 		background || ''
 	)}
 	onclick={() => gridState.setSelectedCell(cell)}
