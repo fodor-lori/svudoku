@@ -1,4 +1,4 @@
-export default class Cell {
+export class Cell {
 	row: number;
 	col: number;
 	value: number;

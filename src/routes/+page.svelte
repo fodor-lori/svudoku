@@ -3,6 +3,7 @@
 	import GameOverDialog from '$lib/components/app/GameOverDialog.svelte';
 	import SudokuGrid from '$lib/components/app/SudokuGrid.svelte';
 	import SudokuHeader from '$lib/components/app/SudokuHeader.svelte';
+	import { loadNewGrid } from '$lib/gameActions';
 	import { Grid } from '$lib/models';
 
 	let sudoku = $state({
@@ -11,10 +12,10 @@
 	});
 
 	async function generateNewGrid() {
-		const result = await fetch('/api/generate');
-		const { solution, puzzle } = await result.json();
-		sudoku.solution = solution;
-		sudoku.puzzle = puzzle;
+		const result = await loadNewGrid();
+
+		sudoku.solution = result.solution;
+		sudoku.puzzle = result.puzzle;
 	}
 </script>
 
