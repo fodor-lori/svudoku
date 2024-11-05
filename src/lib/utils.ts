@@ -1,6 +1,6 @@
+import { Cell } from '$lib/models';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { Cell } from './Cell';
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));

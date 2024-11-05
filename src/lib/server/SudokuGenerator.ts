@@ -1,13 +1,7 @@
-import { Grid } from './Grid';
-import { Cell } from './Cell';
-import { SudokuSolver } from './SudokuSolver';
+import { Cell, Grid } from '$lib/models';
+import SudokuSolver from './SudokuSolver';
 
-export type Sudoku = {
-	solution: Grid;
-	puzzle: Grid;
-};
-
-export class SudokuGenerator {
+export default class SudokuGenerator {
 	private solution: Grid;
 	private puzzle: Grid;
 	private solver: SudokuSolver;
@@ -20,7 +14,7 @@ export class SudokuGenerator {
 		this.candidates = [];
 	}
 
-	public generate(): Sudoku {
+	public generate() {
 		this.initializeEmptyGrid();
 		this.generateFilledGrid();
 

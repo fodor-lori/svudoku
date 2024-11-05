@@ -1,5 +1,5 @@
+import { Cell } from '$lib/models';
 import { getContext, setContext } from 'svelte';
-import { Cell } from './Cell';
 
 export class GameState {
 	selectedCell: Cell | null = $state(null);

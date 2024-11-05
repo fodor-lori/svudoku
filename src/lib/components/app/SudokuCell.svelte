@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Cell } from '$lib/Cell';
+	import { Cell } from '$lib/models';
 	import { getGameState } from '$lib/state.svelte';
 	import { cn, isSameBox, numberColors } from '$lib/utils';
 

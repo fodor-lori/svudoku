@@ -1,12 +1,11 @@
 <script lang="ts">
-	import { Grid } from '$lib/Grid';
-	import type { Sudoku } from '$lib/SudokuGenerator';
 	import ControlPanel from '$lib/components/app/ControlPanel.svelte';
 	import GameOverDialog from '$lib/components/app/GameOverDialog.svelte';
 	import SudokuGrid from '$lib/components/app/SudokuGrid.svelte';
 	import SudokuHeader from '$lib/components/app/SudokuHeader.svelte';
+	import { Grid } from '$lib/models';
 
-	let sudoku: Sudoku = $state({
+	let sudoku = $state({
 		solution: new Grid(),
 		puzzle: new Grid()
 	});

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Grid } from '$lib/Grid';
-	import { getGameState, initGameState } from '$lib/state.svelte';
+	import { Grid } from '$lib/models';
+	import { getGameState } from '$lib/state.svelte';
 	import { cn } from '$lib/utils';
 	import SudokuCell from './SudokuCell.svelte';
 
@@ -12,7 +12,7 @@
 	const { puzzle, solution }: Props = $props();
 	const gameState = getGameState();
 
-	function handleKeyDown(event: KeyboardEvent) {
+	function handleKeyboardInut(event: KeyboardEvent) {
 		if (gameState.selectedCell === null) return;
 
 		const cell = gameState.selectedCell;
@@ -56,7 +56,7 @@
 	}
 </script>
 
-<svelte:window onkeydown={handleKeyDown} />
+<svelte:window onkeydown={handleKeyboardInut} />
 
 <table class="h-full w-full table-fixed border-collapse border-spacing-0 text-center outline-none">
 	<tbody>

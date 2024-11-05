@@ -1,6 +1,6 @@
 import { Cell } from './Cell';
 
-export class Grid {
+export default class Grid {
 	cells: Cell[][];
 	size: number;
 	boxSize: number;

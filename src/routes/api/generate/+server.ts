@@ -1,4 +1,4 @@
-import { SudokuGenerator } from '$lib/SudokuGenerator';
+import { SudokuGenerator } from '$lib/server';
 import { json, type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = () => {
