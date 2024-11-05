@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Cell } from '$lib/Cell';
-	import { getGridState } from '$lib/state.svelte';
+	import { getGameState } from '$lib/state.svelte';
 	import { cn, isSameBox, numberColors } from '$lib/utils';
 
 	type Props = {
@@ -9,7 +9,7 @@
 	};
 
 	const { cell, solution }: Props = $props();
-	const gridState = getGridState();
+	const gameState = getGameState();
 
 	let isCorrect = $state(false);
 	let background = $state('');
@@ -19,20 +19,20 @@
 	});
 
 	$effect(() => {
-		if (!gridState.selectedCell) {
+		if (!gameState.selectedCell) {
 			return;
 		}
 
 		if (cell.value && !isCorrect) {
 			background = 'bg-red-950';
-		} else if (gridState.selectedCell == cell) {
+		} else if (gameState.selectedCell == cell) {
 			background = 'bg-slate-700';
-		} else if (cell.value !== 0 && cell.value === gridState.selectedCell?.value) {
+		} else if (cell.value !== 0 && cell.value === gameState.selectedCell?.value) {
 			background = 'bg-slate-800';
 		} else if (
-			cell.row === gridState.selectedCell?.row ||
-			cell.col === gridState.selectedCell?.col ||
-			isSameBox(cell, gridState.selectedCell)
+			cell.row === gameState.selectedCell?.row ||
+			cell.col === gameState.selectedCell?.col ||
+			isSameBox(cell, gameState.selectedCell)
 		) {
 			background = 'bg-slate-900';
 		} else {
@@ -48,7 +48,7 @@
 		!isCorrect && 'text-red-600',
 		background || ''
 	)}
-	onclick={() => gridState.setSelectedCell(cell)}
+	onclick={() => gameState.setSelectedCell(cell)}
 	tabindex={-1}
 >
 	{cell.value || ''}

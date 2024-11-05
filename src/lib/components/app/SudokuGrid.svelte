@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Grid } from '$lib/Grid';
-	import { setGridState } from '$lib/state.svelte';
+	import { getGameState, initGameState } from '$lib/state.svelte';
 	import { cn } from '$lib/utils';
 	import SudokuCell from './SudokuCell.svelte';
 
@@ -10,42 +10,48 @@
 	};
 
 	const { puzzle, solution }: Props = $props();
-
-	const gridState = setGridState({ selectedCell: null });
+	const gameState = getGameState();
 
 	function handleKeyDown(event: KeyboardEvent) {
-		if (gridState.selectedCell === null) return;
+		if (gameState.selectedCell === null) return;
 
-		const cell = gridState.selectedCell;
+		const cell = gameState.selectedCell;
 		const key = event.key;
 
 		if (key.match(/[1-9]/)) {
 			if (cell.isGiven) return;
 			if (cell.value === parseInt(key)) {
-				gridState.selectedCell.value = 0;
+				gameState.selectedCell.value = 0;
 			} else {
-				gridState.selectedCell.value = parseInt(key);
+				gameState.selectedCell.value = parseInt(key);
+				if (gameState.selectedCell.value !== solution.cells[cell.row][cell.col].value) {
+					gameState.mistakes++;
+
+					if (gameState.mistakes === 3) {
+						gameState.isGameOverDialogOpen = true;
+					}
+				}
 			}
 		}
 
 		if (key === 'Backspace' && !cell.isGiven) {
-			gridState.selectedCell.value = 0;
+			gameState.selectedCell.value = 0;
 		}
 
 		if (key === 'ArrowLeft' && cell.col > 0) {
-			gridState.setSelectedCell(puzzle.cells[cell.row][cell.col - 1]);
+			gameState.setSelectedCell(puzzle.cells[cell.row][cell.col - 1]);
 		}
 
 		if (key === 'ArrowRight' && cell.col < 8) {
-			gridState.setSelectedCell(puzzle.cells[cell.row][cell.col + 1]);
+			gameState.setSelectedCell(puzzle.cells[cell.row][cell.col + 1]);
 		}
 
 		if (key === 'ArrowUp' && cell.row > 0) {
-			gridState.setSelectedCell(puzzle.cells[cell.row - 1][cell.col]);
+			gameState.setSelectedCell(puzzle.cells[cell.row - 1][cell.col]);
 		}
 
 		if (key === 'ArrowDown' && cell.row < 8) {
-			gridState.setSelectedCell(puzzle.cells[cell.row + 1][cell.col]);
+			gameState.setSelectedCell(puzzle.cells[cell.row + 1][cell.col]);
 		}
 	}
 </script>
