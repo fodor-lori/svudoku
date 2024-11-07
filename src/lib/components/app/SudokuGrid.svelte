@@ -1,15 +1,14 @@
 <script lang="ts">
-	import { Grid } from '$lib/models';
 	import { getGameState } from '$lib/state.svelte';
+	import type { UIGrid } from '$lib/types';
 	import { cn } from '$lib/utils';
 	import SudokuCell from './SudokuCell.svelte';
 
 	type Props = {
-		puzzle: Grid;
-		solution: Grid;
+		grid: UIGrid;
 	};
 
-	const { puzzle, solution }: Props = $props();
+	const { grid }: Props = $props();
 	const gameState = getGameState();
 
 	function handleKeyboardInut(event: KeyboardEvent) {
@@ -19,12 +18,12 @@
 		const key = event.key;
 
 		if (key.match(/[1-9]/)) {
-			if (cell.isGiven) return;
+			if (cell.isClue) return;
 			if (cell.value === parseInt(key)) {
 				gameState.selectedCell.value = 0;
 			} else {
 				gameState.selectedCell.value = parseInt(key);
-				if (gameState.selectedCell.value !== solution.cells[cell.row][cell.col].value) {
+				if (gameState.selectedCell.value !== gameState.selectedCell.solution) {
 					gameState.mistakes++;
 
 					if (gameState.mistakes === 3) {
@@ -34,24 +33,24 @@
 			}
 		}
 
-		if (key === 'Backspace' && !cell.isGiven) {
+		if (key === 'Backspace' && !cell.isClue) {
 			gameState.selectedCell.value = 0;
 		}
 
 		if (key === 'ArrowLeft' && cell.col > 0) {
-			gameState.setSelectedCell(puzzle.cells[cell.row][cell.col - 1]);
+			gameState.setSelectedCell(grid.cells[cell.row][cell.col - 1]);
 		}
 
 		if (key === 'ArrowRight' && cell.col < 8) {
-			gameState.setSelectedCell(puzzle.cells[cell.row][cell.col + 1]);
+			gameState.setSelectedCell(grid.cells[cell.row][cell.col + 1]);
 		}
 
 		if (key === 'ArrowUp' && cell.row > 0) {
-			gameState.setSelectedCell(puzzle.cells[cell.row - 1][cell.col]);
+			gameState.setSelectedCell(grid.cells[cell.row - 1][cell.col]);
 		}
 
 		if (key === 'ArrowDown' && cell.row < 8) {
-			gameState.setSelectedCell(puzzle.cells[cell.row + 1][cell.col]);
+			gameState.setSelectedCell(grid.cells[cell.row + 1][cell.col]);
 		}
 	}
 </script>
@@ -60,7 +59,7 @@
 
 <table class="h-full w-full table-fixed border-collapse border-spacing-0 text-center outline-none">
 	<tbody>
-		{#each puzzle.cells as row, rowIndex}
+		{#each grid.cells as row, rowIndex}
 			{@const isBottomBox = rowIndex % 3 === 2}
 			{@const isFirstRow = rowIndex === 0}
 			{@const isLastRow = rowIndex === 8}
@@ -82,7 +81,7 @@
 							isLastCol && 'border-r-gray-500'
 						)}
 					>
-						<SudokuCell {cell} solution={solution.cells[rowIndex][colIndex].value} />
+						<SudokuCell {cell} />
 					</td>
 				{/each}
 			</tr>

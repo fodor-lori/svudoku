@@ -1,4 +1,5 @@
-import { Cell, Grid } from '$lib/models';
+import { Cell } from './models/Cell';
+import { Grid } from './models/Grid';
 
 export default class SudokuSolver {
 	private grid: Grid = new Grid();

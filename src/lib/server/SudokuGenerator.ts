@@ -1,88 +1,47 @@
-import { Cell, Grid } from '$lib/models';
+import type { SudokuData } from '$lib/types';
+import { FilledSudokuGenerator } from './FilledGridGenerator';
+import { Cell } from './models/Cell';
+import { Grid } from './models/Grid';
 import SudokuSolver from './SudokuSolver';
 
-export default class SudokuGenerator {
-	private solution: Grid;
-	private puzzle: Grid;
+export class SudokuGenerator {
+	private filledGridGenerator: FilledSudokuGenerator;
 	private solver: SudokuSolver;
-	private candidates: Set<number>[][];
+	private grid: Grid;
+	private cellsToRemove: number;
 
-	constructor() {
-		this.puzzle = new Grid();
-		this.solution = new Grid();
+	constructor(cellsToRemove: number) {
+		this.filledGridGenerator = new FilledSudokuGenerator();
 		this.solver = new SudokuSolver();
-		this.candidates = [];
+		this.grid = new Grid();
+
+		this.cellsToRemove = cellsToRemove;
 	}
 
-	public generate() {
-		this.initializeEmptyGrid();
-		this.generateFilledGrid();
+	generate(): SudokuData {
+		const solution = this.filledGridGenerator.generate();
+		this.grid = solution.clone();
 
-		this.puzzle = this.solution.clone();
-		this.generatePuzzle(56, this.shuffleCells());
-
-		if (!this.solution || !this.puzzle) {
-			throw new Error('Failed to generate Grid');
+		let success = false;
+		while (!success) {
+			const cells = this.shuffleCells(this.grid.cells);
+			success = this.removeSudokuCell(cells, this.grid);
 		}
 
-		for (let row = 0; row < this.puzzle.size; row++) {
-			for (let col = 0; col < this.puzzle.size; col++) {
-				if (this.puzzle.getCell(row, col).value !== 0) {
-					this.puzzle.getCell(row, col).isGiven = true;
-				}
-			}
-		}
-
-		return { solution: this.solution, puzzle: this.puzzle };
+		return {
+			puzzle: this.grid.serialize(),
+			solution: solution.serialize()
+		};
 	}
 
-	private initializeEmptyGrid() {
-		this.solution = new Grid();
-		this.candidates = Array.from({ length: 9 }, () =>
-			Array.from({ length: 9 }, () => new Set<number>([1, 2, 3, 4, 5, 6, 7, 8, 9]))
-		);
-	}
-
-	private generateFilledGrid(): boolean {
-		const cell = this.findMostConstrainedCell();
-
-		if (!cell) {
-			return true;
-		}
-
-		const candidates = this.candidates[cell.row][cell.col];
-
-		if (candidates.size === 0) {
-			return false;
-		}
-
-		const numbers = Array.from(candidates).sort(() => Math.random() - 0.5);
-
-		for (const number of numbers) {
-			if (this.isValid(cell, number)) {
-				this.solution.setCellValue(cell.row, cell.col, number);
-				this.candidates[cell.row][cell.col].delete(number);
-
-				if (this.generateFilledGrid()) {
-					return true;
-				}
-
-				this.solution.setCellValue(cell.row, cell.col, 0);
-				this.candidates[cell.row][cell.col].add(number);
-			}
-		}
-
-		return false;
-	}
-
-	private generatePuzzle(
-		cellsToRemove: number,
+	private removeSudokuCell(
 		cells: Cell[],
+		grid: Grid = this.grid,
 		cellIndex: number = 0,
-		puzzle: Grid = this.puzzle
+		cellsToRemove: number = this.cellsToRemove
 	): boolean {
 		if (cellsToRemove === 0) {
-			this.puzzle = puzzle;
+			this.grid = grid;
 			return true;
 		}
 
@@ -91,75 +50,27 @@ export default class SudokuGenerator {
 		}
 
 		const cell = cells[cellIndex];
-		if (cell.value === 0) {
-			return this.generatePuzzle(cellsToRemove, cells, cellIndex + 1, puzzle);
+
+		if (cell.isEmpty()) {
+			return this.removeSudokuCell(cells, grid, cellIndex + 1, cellsToRemove);
 		}
 
-		const puzzleCopy = puzzle.clone();
+		const copy = grid.clone();
 
-		puzzleCopy.setCellValue(cell.row, cell.col, 0);
-		if (this.solver.hasUniqueSolution(puzzleCopy)) {
-			if (this.generatePuzzle(cellsToRemove - 1, cells, cellIndex + 1, puzzleCopy)) {
+		const originalValue = cell.value;
+		copy.setCellValue(cell.row, cell.col, 0);
+
+		if (this.solver.hasUniqueSolution(copy)) {
+			if (this.removeSudokuCell(cells, copy, cellIndex + 1, cellsToRemove - 1)) {
 				return true;
 			}
 		}
 
-		return this.generatePuzzle(cellsToRemove, cells, cellIndex + 1, puzzle);
+		grid.setCellValue(cell.row, cell.col, originalValue);
+		return this.removeSudokuCell(cells, grid, cellIndex + 1, cellsToRemove);
 	}
 
-	private findMostConstrainedCell(): Cell | null {
-		let minOptions = 10;
-		let bestCell: Cell | null = null;
-
-		for (let row = 0; row < this.solution.size; row++) {
-			for (let col = 0; col < this.solution.size; col++) {
-				const cell = this.solution.getCell(row, col);
-
-				if (cell.value !== 0) {
-					continue;
-				}
-
-				const optionCount = this.candidates[row][col].size;
-
-				if (optionCount < minOptions) {
-					minOptions = optionCount;
-					bestCell = cell;
-
-					if (minOptions === 1) {
-						return bestCell;
-					}
-				}
-			}
-		}
-
-		return bestCell;
-	}
-
-	private isValid(cell: Cell, number: number): boolean {
-		for (let i = 0; i < this.solution.size; i++) {
-			if (
-				this.solution.getCell(cell.row, i).value === number ||
-				this.solution.getCell(i, cell.col).value === number
-			) {
-				return false;
-			}
-		}
-
-		const startRow = cell.row - (cell.row % this.solution.boxSize);
-		const startCol = cell.col - (cell.col % this.solution.boxSize);
-
-		for (let row = 0; row < this.solution.boxSize; row++) {
-			for (let col = 0; col < this.solution.boxSize; col++) {
-				if (this.solution.getCell(startRow + row, startCol + col).value === number) {
-					return false;
-				}
-			}
-		}
-
-		return true;
-	}
-
-	private shuffleCells(): Cell[] {
-		return this.solution.cells.flat().sort(() => Math.random() - 0.5);
+	private shuffleCells(cells: Cell[][]): Cell[] {
+		return cells.flat().sort(() => Math.random() - 0.5);
 	}
 }

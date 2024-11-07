@@ -1,21 +1,20 @@
 <script lang="ts">
-	import { Cell } from '$lib/models';
 	import { getGameState } from '$lib/state.svelte';
+	import type { UICell } from '$lib/types';
 	import { cn, isSameBox, numberColors } from '$lib/utils';
 
 	type Props = {
-		cell: Cell;
-		solution: number;
+		cell: UICell;
 	};
 
-	const { cell, solution }: Props = $props();
+	const { cell }: Props = $props();
 	const gameState = getGameState();
 
 	let isCorrect = $state(false);
 	let background = $state('');
 
 	$effect(() => {
-		isCorrect = cell.value === solution;
+		isCorrect = cell.value === cell.solution;
 	});
 
 	$effect(() => {

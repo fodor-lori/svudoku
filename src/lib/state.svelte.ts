@@ -1,13 +1,13 @@
-import { Cell } from '$lib/models';
 import { getContext, setContext } from 'svelte';
+import type { UICell } from './types';
 
 export class GameState {
-	selectedCell: Cell | null = $state(null);
+	selectedCell: UICell | null = $state(null);
 
 	mistakes: number = $state(0);
 	isGameOverDialogOpen: boolean = $state(false);
 
-	setSelectedCell(cell: Cell) {
+	setSelectedCell(cell: UICell) {
 		if (cell !== this.selectedCell) {
 			this.selectedCell = cell;
 		} else {

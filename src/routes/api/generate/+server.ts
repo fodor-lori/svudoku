@@ -1,14 +1,8 @@
-import { SudokuGenerator } from '$lib/server';
+import { SudokuGenerator } from '$lib/server/SudokuGenerator';
 import { json, type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = () => {
-	const generator = new SudokuGenerator();
-
-	const { solution, puzzle } = generator.generate();
-
-	if (!solution || !puzzle) {
-		return json({ error: 'Failed to generate Grid' }, { status: 500 });
-	}
-
-	return json({ puzzle, solution });
+	const sudokuGenerator = new SudokuGenerator(56);
+	const result = sudokuGenerator.generate();
+	return json(result);
 };

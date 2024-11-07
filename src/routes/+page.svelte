@@ -4,18 +4,15 @@
 	import SudokuGrid from '$lib/components/app/SudokuGrid.svelte';
 	import SudokuHeader from '$lib/components/app/SudokuHeader.svelte';
 	import { loadNewGrid } from '$lib/gameActions';
-	import { Grid } from '$lib/models';
+	import type { UIGrid } from '$lib/types';
 
-	let sudoku = $state({
-		solution: new Grid(),
-		puzzle: new Grid()
-	});
+	let grid: UIGrid = $state({ cells: [], size: 9, boxSize: 3 }) as UIGrid;
 
 	async function generateNewGrid() {
 		const result = await loadNewGrid();
-
-		sudoku.solution = result.solution;
-		sudoku.puzzle = result.puzzle;
+		grid.cells = result.cells;
+		grid.size = result.size;
+		grid.boxSize = result.boxSize;
 	}
 </script>
 
@@ -29,7 +26,7 @@
 		<div
 			class="col-start-2 row-start-2 aspect-square max-h-[calc(100vh-8rem)] items-center justify-center"
 		>
-			<SudokuGrid puzzle={sudoku.puzzle} solution={sudoku.solution} />
+			<SudokuGrid {grid} />
 		</div>
 	{/await}
 
