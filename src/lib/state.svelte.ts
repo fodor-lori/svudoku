@@ -3,6 +3,7 @@ import type { UICell } from './types';
 
 export class GameState {
 	selectedCell: UICell | null = $state(null);
+	isNotesActive: boolean = $state(false);
 
 	mistakes: number = $state(0);
 	isGameOverDialogOpen: boolean = $state(false);

@@ -15,14 +15,12 @@
 
 	$effect(() => {
 		isCorrect = cell.value === cell.solution;
-	});
 
-	$effect(() => {
 		if (!gameState.selectedCell) {
 			return;
 		}
 
-		if (cell.value && !isCorrect) {
+		if (cell.value && !isCorrect && !cell.notes.length) {
 			background = 'bg-red-950';
 		} else if (gameState.selectedCell == cell) {
 			background = 'bg-slate-700';
@@ -40,15 +38,27 @@
 	});
 </script>
 
-<button
+<!--
+	svelte-ignore
+	a11y_click_events_have_key_events,
+	a11y_no_static_element_interactions,
+	a11y_no_noninteractive_tabindex
+-->
+<div
 	class={cn(
-		'flex h-full w-full cursor-default items-center justify-center text-[36px] outline-none',
-		cell.value && numberColors[cell.value],
+		'flex h-full w-full items-center justify-center text-[36px] outline-none',
 		!isCorrect && 'text-red-600',
 		background || ''
 	)}
 	onclick={() => gameState.setSelectedCell(cell)}
-	tabindex={-1}
 >
-	{cell.value || ''}
-</button>
+	{#if cell.notes.length > 0}
+		<div class="grid h-full w-full grid-cols-3 grid-rows-3 text-gray-500">
+			{#each Array.from<number>({ length: 9 }) as _, index}
+				<span class="text-sm">{cell.notes.includes(index + 1) ? index + 1 : ''}</span>
+			{/each}
+		</div>
+	{:else}
+		{cell.value || ''}
+	{/if}
+</div>

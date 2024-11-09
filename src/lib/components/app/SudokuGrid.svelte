@@ -19,6 +19,20 @@
 
 		if (key.match(/[1-9]/)) {
 			if (cell.isClue) return;
+
+			if (gameState.isNotesActive) {
+				if (gameState.selectedCell.notes.includes(parseInt(key))) {
+					gameState.selectedCell.notes = gameState.selectedCell.notes.filter(
+						(note) => note !== parseInt(key)
+					);
+				} else {
+					gameState.selectedCell.notes.push(parseInt(key));
+				}
+				return;
+			}
+
+			gameState.selectedCell.notes = [];
+
 			if (cell.value === parseInt(key)) {
 				gameState.selectedCell.value = 0;
 			} else {
@@ -35,6 +49,7 @@
 
 		if (key === 'Backspace' && !cell.isClue) {
 			gameState.selectedCell.value = 0;
+			gameState.selectedCell.notes = [];
 		}
 
 		if (key === 'ArrowLeft' && cell.col > 0) {
