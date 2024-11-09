@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getGameState } from '$lib/state.svelte';
 	import type { UIGrid } from '$lib/types';
-	import { cn } from '$lib/utils';
+	import { cn, isSameBox } from '$lib/utils';
 	import SudokuCell from './SudokuCell.svelte';
 
 	type Props = {
@@ -37,6 +37,17 @@
 				gameState.selectedCell.value = 0;
 			} else {
 				gameState.selectedCell.value = parseInt(key);
+
+				grid.cells.flat().forEach((cell) => {
+					if (
+						cell.row === gameState.selectedCell!.row ||
+						cell.col === gameState.selectedCell!.col ||
+						isSameBox(cell, gameState.selectedCell!)
+					) {
+						cell.notes = cell.notes.filter((note) => note !== parseInt(key));
+					}
+				});
+
 				if (gameState.selectedCell.value !== gameState.selectedCell.solution) {
 					gameState.mistakes++;
 
