@@ -58,25 +58,29 @@
 			}
 		}
 
-		if (key === 'Backspace' && !cell.isClue) {
+		if ((key === 'Backspace' || key === 'Delete') && !cell.isClue) {
 			gameState.selectedCell.value = 0;
 			gameState.selectedCell.notes = [];
 		}
 
-		if (key === 'ArrowLeft' && cell.col > 0) {
+		if ((key === 'ArrowLeft' || key === 'a') && cell.col > 0) {
 			gameState.setSelectedCell(grid.cells[cell.row][cell.col - 1]);
 		}
 
-		if (key === 'ArrowRight' && cell.col < 8) {
+		if ((key === 'ArrowRight' || key === 'd') && cell.col < 8) {
 			gameState.setSelectedCell(grid.cells[cell.row][cell.col + 1]);
 		}
 
-		if (key === 'ArrowUp' && cell.row > 0) {
+		if ((key === 'ArrowUp' || key === 'w') && cell.row > 0) {
 			gameState.setSelectedCell(grid.cells[cell.row - 1][cell.col]);
 		}
 
-		if (key === 'ArrowDown' && cell.row < 8) {
+		if ((key === 'ArrowDown' || key === 's') && cell.row < 8) {
 			gameState.setSelectedCell(grid.cells[cell.row + 1][cell.col]);
+		}
+
+		if (key === ' ') {
+			gameState.isNotesActive = !gameState.isNotesActive;
 		}
 	}
 </script>
