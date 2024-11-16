@@ -2,6 +2,8 @@
 	import { gameState } from '$lib/state.svelte';
 	import { cn } from '$lib/utils';
 	import SudokuCell from './SudokuCell.svelte';
+
+	$inspect(gameState.history);
 </script>
 
 <table class="h-full w-full table-fixed border-collapse border-spacing-0 text-center outline-none">

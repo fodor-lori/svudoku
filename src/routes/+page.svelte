@@ -6,7 +6,6 @@
 	import SudokuHeader from '$lib/components/app/SudokuHeader.svelte';
 	import { loadGrid } from '$lib/gameActions';
 	import { gameState } from '$lib/state.svelte';
-	import type { Grid } from '$lib/types';
 
 	async function generateGrid() {
 		const result = await loadGrid();

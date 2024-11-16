@@ -18,6 +18,12 @@ export type Grid = {
 	cells: Cell[][];
 };
 
+export type StateChange = {
+	target: Cell;
+	type: InputMode;
+	affectedCells?: Cell[];
+};
+
 export enum InputMode {
 	NOTE = 'note',
 	VALUE = 'value'

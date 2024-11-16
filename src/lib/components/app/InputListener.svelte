@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { gameState } from '$lib/state.svelte';
-	import { InputMode, type Grid } from '$lib/types';
-	import { isSameBox } from '$lib/utils';
+	import { InputMode } from '$lib/types';
 
 	function handleKeyboardInut(event: KeyboardEvent) {
 		const key = event.key;
@@ -16,6 +15,11 @@
 			return;
 		}
 
+		if (key === 'z') {
+			gameState.undoLastChange();
+			return;
+		}
+
 		if (gameState.currentCell === null) return;
 
 		const cell = gameState.currentCell;
@@ -27,15 +31,8 @@
 
 			if (gameState.inputMode === InputMode.NOTE) {
 				gameState.updateCurrentCellNotes(parsedKey);
-				return;
-			}
-
-			if (gameState.updateCurrentCellValue(parsedKey)) {
-				grid.cells.flat().forEach((c) => {
-					if (c.row === cell.row || c.col === cell.col || isSameBox(c, cell)) {
-						c.notes = c.notes.filter((note) => note !== parsedKey);
-					}
-				});
+			} else {
+				gameState.updateCurrentCellValue(parsedKey);
 			}
 
 			return;

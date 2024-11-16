@@ -12,7 +12,7 @@
 	<Card.Root>
 		<Card.Content class="flex flex-col gap-2">
 			<div>
-				<Button>
+				<Button onclick={() => gameState.undoLastChange()}>
 					<Reset class="mr-2" />
 					Undo
 				</Button>
