@@ -1,14 +1,14 @@
-import type { UIGrid, UICell } from './types';
+import type { Grid, Cell } from './types';
 
-export async function loadNewGrid() {
+export async function loadGrid() {
 	const response = await fetch('/api/generate');
 	const { puzzle, solution } = await response.json();
 
 	return deserialize(puzzle, solution);
 }
 
-export function deserialize(puzzle: string, solution: string): UIGrid {
-	const cells: UICell[][] = [];
+export function deserialize(puzzle: string, solution: string): Grid {
+	const cells: Cell[][] = [];
 
 	for (let row = 0; row < 9; row++) {
 		cells[row] = [];

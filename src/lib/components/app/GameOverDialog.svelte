@@ -1,18 +1,16 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import * as Dialog from '$lib/components/ui/dialog';
-	import { getGameState } from '$lib/state.svelte';
-
-	const gameState = getGameState();
+	import { gameState } from '$lib/state.svelte';
 
 	function startNewGame() {
 		gameState.isGameOverDialogOpen = false;
-		gameState.mistakes = 0;
+		gameState.mistakeCount = 0;
 	}
 
 	function keepPlaying() {
 		gameState.isGameOverDialogOpen = false;
-		gameState.mistakes = 0;
+		gameState.mistakeCount = 0;
 	}
 </script>
 

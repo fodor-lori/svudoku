@@ -1,14 +1,13 @@
 <script lang="ts">
-	import { getGameState } from '$lib/state.svelte';
-	import type { UICell } from '$lib/types';
-	import { cn, isSameBox, numberColors } from '$lib/utils';
+	import { gameState } from '$lib/state.svelte';
+	import type { Cell } from '$lib/types';
+	import { cn, isSameBox } from '$lib/utils';
 
 	type Props = {
-		cell: UICell;
+		cell: Cell;
 	};
 
 	const { cell }: Props = $props();
-	const gameState = getGameState();
 
 	let isCorrect = $state(false);
 	let background = $state('');
@@ -16,20 +15,20 @@
 	$effect(() => {
 		isCorrect = cell.value === cell.solution;
 
-		if (!gameState.selectedCell) {
+		if (!gameState.currentCell) {
 			return;
 		}
 
 		if (cell.value && !isCorrect && !cell.notes.length) {
 			background = 'bg-red-950';
-		} else if (gameState.selectedCell == cell) {
+		} else if (gameState.currentCell == cell) {
 			background = 'bg-slate-700';
-		} else if (cell.value !== 0 && cell.value === gameState.selectedCell?.value) {
+		} else if (cell.value !== 0 && cell.value === gameState.currentCell?.value) {
 			background = 'bg-slate-800';
 		} else if (
-			cell.row === gameState.selectedCell?.row ||
-			cell.col === gameState.selectedCell?.col ||
-			isSameBox(cell, gameState.selectedCell)
+			cell.row === gameState.currentCell?.row ||
+			cell.col === gameState.currentCell?.col ||
+			isSameBox(cell, gameState.currentCell)
 		) {
 			background = 'bg-slate-900';
 		} else {
@@ -50,7 +49,7 @@
 		!isCorrect && 'text-red-600',
 		background || ''
 	)}
-	onclick={() => gameState.setSelectedCell(cell)}
+	onclick={() => gameState.setCurrentCell(cell)}
 >
 	{#if cell.notes.length > 0}
 		<div class="grid h-full w-full grid-cols-3 grid-rows-3 text-gray-500">

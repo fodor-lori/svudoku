@@ -1,19 +1,24 @@
-export type UICell = {
-	row: number;
-	col: number;
-	value: number;
-	solution: number;
-	isClue: boolean;
-	notes: number[];
-};
-
-export type UIGrid = {
-	size: number;
-	boxSize: number;
-	cells: UICell[][];
-};
-
 export type SudokuData = {
 	puzzle: string;
 	solution: string;
 };
+
+export type Cell = {
+	row: number;
+	col: number;
+	value: number;
+	notes: number[];
+	solution: number;
+	isClue: boolean;
+};
+
+export type Grid = {
+	size: number;
+	boxSize: number;
+	cells: Cell[][];
+};
+
+export enum InputMode {
+	NOTE = 'note',
+	VALUE = 'value'
+}

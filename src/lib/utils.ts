@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import type { UICell } from './types';
+import type { Cell } from './types';
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -18,7 +18,7 @@ export const numberColors: Record<number, string> = {
 	9: 'text-yellow-600'
 };
 
-export function isSameBox(cellA: UICell, cellB: UICell) {
+export function isSameBox(cellA: Cell, cellB: Cell) {
 	return (
 		Math.floor(cellA.row / 3) === Math.floor(cellB.row / 3) &&
 		Math.floor(cellA.col / 3) === Math.floor(cellB.col / 3)
