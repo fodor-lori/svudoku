@@ -1,4 +1,4 @@
-import type { Grid, Cell } from './types';
+import type { Cell, Grid } from './types';
 
 export async function loadGrid() {
 	const response = await fetch('/api/generate');
