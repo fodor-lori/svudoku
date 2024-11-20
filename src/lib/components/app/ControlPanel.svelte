@@ -11,13 +11,9 @@
 	};
 </script>
 
-<div class="flex w-full flex-col items-start gap-2">
-	<Card.Root>
-		<Card.Content class="flex w-full flex-col gap-4">
-			<GameControls />
-			<NumberPad />
-		</Card.Content>
-	</Card.Root>
+<div class="flex h-full max-w-72 flex-col justify-between rounded-sm">
+	<GameControls />
+	<NumberPad />
 </div>
 
 {#snippet GameControls()}
@@ -38,24 +34,16 @@
 {/snippet}
 
 {#snippet NumberPad()}
-	{@const numberPad = [
-		[1, 2, 3],
-		[4, 5, 6],
-		[7, 8, 9]
-	]}
-	<div class="flex h-full w-full flex-1 flex-col gap-1">
-		{#each numberPad as row}
-			<div class="flex gap-1">
-				{#each row as number}
-					<Button
-						variant="secondary"
-						onclick={() => handleNumberClick(number)}
-						class="flex aspect-square h-auto flex-1"
-					>
-						{number}
-					</Button>
-				{/each}
-			</div>
+	{@const numberPad = [1, 2, 3, 4, 5, 6, 7, 8, 9]}
+	<div class="grid grid-cols-3 gap-1.5">
+		{#each numberPad as number}
+			<Button
+				variant="secondary"
+				onclick={() => handleNumberClick(number)}
+				class="flex aspect-square h-auto text-xl"
+			>
+				{number}
+			</Button>
 		{/each}
 	</div>
 {/snippet}

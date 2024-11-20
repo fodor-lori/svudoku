@@ -7,7 +7,7 @@ class GameState {
 	history: StateChange[] = $state([]);
 
 	mistakeCount: number = $state(0);
-	inputMode: InputMode = $state(InputMode.NOTE);
+	inputMode: InputMode = $state(InputMode.VALUE);
 	isGameOverDialogOpen: boolean = $state(false);
 
 	setCurrentCell(cell: Cell) {

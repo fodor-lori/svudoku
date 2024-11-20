@@ -16,6 +16,7 @@
 		isCorrect = cell.value === cell.solution;
 
 		if (!gameState.currentCell) {
+			background = '';
 			return;
 		}
 
@@ -45,16 +46,27 @@
 -->
 <div
 	class={cn(
-		'flex h-full w-full items-center justify-center text-[36px] outline-none',
+		'flex aspect-square select-none items-center justify-center rounded-sm border text-[36px]',
+		cell.row % 3 == 0 && 'border-t-gray-600',
+		cell.row % 3 == 2 && 'border-b-gray-600',
+		cell.col % 3 == 0 && 'border-l-gray-600',
+		cell.col % 3 == 2 && 'border-r-gray-600',
 		!isCorrect && 'text-red-600',
-		background || ''
+		background
 	)}
 	onclick={() => gameState.setCurrentCell(cell)}
 >
 	{#if cell.notes.length > 0}
-		<div class="grid h-full w-full grid-cols-3 grid-rows-3 text-gray-500">
+		<div class="grid grid-cols-3 grid-rows-3 gap-1.5 text-gray-500">
 			{#each Array.from<number>({ length: 9 }) as _, index}
-				<span class="text-sm">{cell.notes.includes(index + 1) ? index + 1 : ''}</span>
+				<span
+					class={cn(
+						'aspect-square text-sm',
+						index + 1 === gameState.currentCell?.value && 'font-semibold text-white'
+					)}
+				>
+					{cell.notes.includes(index + 1) ? index + 1 : ''}</span
+				>
 			{/each}
 		</div>
 	{:else}
