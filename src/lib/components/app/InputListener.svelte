@@ -5,7 +5,7 @@
 	function handleKeyboardInut(event: KeyboardEvent) {
 		const key = event.key;
 
-		if (key === 'Backspace' || key === 'Delete' || key === 'Escape') {
+		if (key === 'Backspace' || key === 'Delete') {
 			gameState.resetCurrentCell();
 			return;
 		}

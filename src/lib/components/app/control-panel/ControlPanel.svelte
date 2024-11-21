@@ -6,6 +6,7 @@
 	import Reset from 'svelte-radix/Reset.svelte';
 	import DifficultySelection from './DifficultySelection.svelte';
 	import NumberPad from './NumberPad.svelte';
+	import ModeToggle from './ThemeSwitcher.svelte';
 </script>
 
 <div class="flex h-full max-w-72 flex-col justify-between rounded-sm">
@@ -29,6 +30,7 @@
 				<Pencil2 class="mr-2" />
 				Notes
 			</Button>
+			<ModeToggle />
 		</div>
 	</div>
 

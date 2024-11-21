@@ -19,7 +19,7 @@
 	open={gameState.isGameOverDialogOpen}
 	onOpenChange={(open) => (gameState.isGameOverDialogOpen = open)}
 >
-	<Dialog.Content>
+	<Dialog.Content onEscapeKeydown={() => keepPlaying()}>
 		<Dialog.Header>
 			<Dialog.Title>Ran out of mistakes!</Dialog.Title>
 		</Dialog.Header>
