@@ -1,5 +1,5 @@
 import { InputMode, type Cell, type Grid, type StateChange } from './types';
-import { isSameBox } from './utils';
+import { isSameBox, loadGrid } from './utils';
 
 class GameState {
 	grid: Grid = $state({ cells: [], size: 9, boxSize: 3 });
@@ -9,6 +9,7 @@ class GameState {
 	mistakeCount: number = $state(0);
 	inputMode: InputMode = $state(InputMode.VALUE);
 	isGameOverDialogOpen: boolean = $state(false);
+	isNewGameDialogOpen: boolean = $state(false);
 
 	setCurrentCell(cell: Cell) {
 		if (cell !== this.currentCell) {
@@ -120,10 +121,18 @@ class GameState {
 	}
 
 	reset() {
+		this.history = [];
+		this.grid.cells = [];
 		this.mistakeCount = 0;
 		this.currentCell = null;
 		this.inputMode = InputMode.VALUE;
 		this.isGameOverDialogOpen = false;
+		this.isNewGameDialogOpen = false;
+	}
+
+	async loadNewGrid() {
+		const result = await loadGrid();
+		this.grid = result;
 	}
 }
 

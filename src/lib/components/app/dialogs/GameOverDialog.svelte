@@ -4,8 +4,8 @@
 	import { gameState } from '$lib/state.svelte';
 
 	function startNewGame() {
-		gameState.isGameOverDialogOpen = false;
-		gameState.mistakeCount = 0;
+		gameState.reset();
+		gameState.loadNewGrid();
 	}
 
 	function keepPlaying() {
@@ -21,11 +21,17 @@
 >
 	<Dialog.Content>
 		<Dialog.Header>
-			<Dialog.Title>You ran out of mistakes to made!</Dialog.Title>
+			<Dialog.Title>Ran out of mistakes!</Dialog.Title>
 		</Dialog.Header>
+		<Dialog.Description>
+			<p>
+				You've used up all your mistakes. Would you like to start fresh with a new game, or have
+				another chance with this puzzle?
+			</p>
+		</Dialog.Description>
 		<Dialog.Footer>
-			<Button class="btn btn-primary" onclick={startNewGame}>New Game</Button>
-			<Button class="btn btn-secondary" onclick={keepPlaying}>Keep Playing</Button>
+			<Button variant="outline" onclick={startNewGame}>New Game</Button>
+			<Button onclick={keepPlaying}>Keep Playing</Button>
 		</Dialog.Footer>
 	</Dialog.Content>
 </Dialog.Root>
