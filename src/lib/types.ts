@@ -28,3 +28,5 @@ export enum InputMode {
 	NOTE = 'note',
 	VALUE = 'value'
 }
+
+export type Difficulty = 'easy' | 'medium' | 'hard' | 'expert';

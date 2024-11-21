@@ -1,4 +1,4 @@
-import { InputMode, type Cell, type Grid, type StateChange } from './types';
+import { InputMode, type Cell, type Difficulty, type Grid, type StateChange } from './types';
 import { isSameBox, loadGrid } from './utils';
 
 class GameState {
@@ -7,6 +7,7 @@ class GameState {
 	history: StateChange[] = $state([]);
 
 	mistakeCount: number = $state(0);
+	difficulty: Difficulty = $state('easy');
 	inputMode: InputMode = $state(InputMode.VALUE);
 	isGameOverDialogOpen: boolean = $state(false);
 	isNewGameDialogOpen: boolean = $state(false);

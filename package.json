@@ -18,12 +18,13 @@
 		"@tailwindcss/typography": "^0.5.15",
 		"@types/eslint": "^9.6.0",
 		"autoprefixer": "^10.4.20",
-		"bits-ui": "1.0.0-next.49",
+		"bits-ui": "1.0.0-next.63",
 		"clsx": "^2.1.1",
 		"eslint": "^9.7.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.36.0",
 		"globals": "^15.0.0",
+		"lucide-svelte": "^0.460.1",
 		"prettier": "^3.3.2",
 		"prettier-plugin-svelte": "^3.2.6",
 		"prettier-plugin-tailwindcss": "^0.6.5",
@@ -39,6 +40,6 @@
 		"vite": "^5.0.3"
 	},
 	"dependencies": {
-		"mode-watcher": "^0.4.1"
+		"mode-watcher": "^0.5.0"
 	}
 }
