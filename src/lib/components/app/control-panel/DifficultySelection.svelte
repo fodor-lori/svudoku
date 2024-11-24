@@ -1,7 +1,9 @@
 <script lang="ts">
 	import * as Select from '$lib/components/ui/select';
-	import { gameState } from '$lib/state.svelte';
+	import { useGameState } from '$lib/state.svelte';
 	import type { Difficulty } from '$lib/types';
+
+	const gameState = useGameState();
 
 	const difficulties = [
 		{

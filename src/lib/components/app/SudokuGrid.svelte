@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { gameState } from '$lib/state.svelte';
-	import { cn } from '$lib/utils';
+	import { useGameState } from '$lib/state.svelte';
 	import SudokuCell from './SudokuCell.svelte';
+
+	const gameState = useGameState();
 </script>
 
 <div class="grid grid-cols-9 grid-rows-9 gap-1">

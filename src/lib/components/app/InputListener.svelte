@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { gameState } from '$lib/state.svelte';
+	import { useGameState } from '$lib/state.svelte';
 	import { InputMode } from '$lib/types';
+
+	const gameState = useGameState();
 
 	function handleKeyboardInut(event: KeyboardEvent) {
 		const key = event.key;

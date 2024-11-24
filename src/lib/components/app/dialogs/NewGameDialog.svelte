@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import * as Dialog from '$lib/components/ui/dialog';
-	import { gameState } from '$lib/state.svelte';
+	import { useGameState } from '$lib/state.svelte';
+
+	const gameState = useGameState();
 
 	function startNewGame() {
 		gameState.reset();
-		gameState.loadNewGrid();
+		gameState.loadNewPuzzle();
 	}
 
 	function keepPlaying() {

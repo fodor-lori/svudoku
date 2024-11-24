@@ -1,5 +1,7 @@
+import { getContext, setContext } from 'svelte';
 import { InputMode, type Cell, type Difficulty, type Grid, type StateChange } from './types';
-import { isSameBox, loadGrid } from './utils';
+import { isSameBox, fetchNewPuzzle } from './utils';
+import { browser } from '$app/environment';
 
 class GameState {
 	grid: Grid = $state({ cells: [], size: 9, boxSize: 3 });
@@ -9,8 +11,35 @@ class GameState {
 	mistakeCount: number = $state(0);
 	difficulty: Difficulty = $state('easy');
 	inputMode: InputMode = $state(InputMode.VALUE);
+
 	isGameOverDialogOpen: boolean = $state(false);
 	isNewGameDialogOpen: boolean = $state(false);
+
+	constructor() {
+		if (browser) {
+			const savedState = localStorage.getItem('game-state');
+
+			if (savedState) {
+				const parsedState = JSON.parse(savedState);
+				this.grid = parsedState.grid;
+				this.history = parsedState.history;
+				this.mistakeCount = parsedState.mistakeCount;
+			}
+		}
+
+		$effect(() => {
+			if (browser) {
+				localStorage.setItem(
+					'game-state',
+					JSON.stringify({
+						grid: this.grid,
+						history: this.history,
+						mistakeCount: this.mistakeCount
+					})
+				);
+			}
+		});
+	}
 
 	setCurrentCell(cell: Cell) {
 		if (cell !== this.currentCell) {
@@ -131,10 +160,18 @@ class GameState {
 		this.isNewGameDialogOpen = false;
 	}
 
-	async loadNewGrid() {
-		const result = await loadGrid();
+	async loadNewPuzzle() {
+		const result = await fetchNewPuzzle();
 		this.grid = result;
 	}
 }
 
-export const gameState = new GameState();
+const GAME_STATE_CTX = Symbol('GAME_STATE_CTX');
+
+export function initGameState() {
+	return setContext(GAME_STATE_CTX, new GameState());
+}
+
+export function useGameState() {
+	return getContext<ReturnType<typeof initGameState>>(GAME_STATE_CTX);
+}

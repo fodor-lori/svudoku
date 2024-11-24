@@ -18,7 +18,7 @@ export const numberColors: Record<number, string> = {
 	9: 'text-yellow-600'
 };
 
-export async function loadGrid() {
+export async function fetchNewPuzzle() {
 	const response = await fetch('/api/generate');
 	const { puzzle, solution } = await response.json();
 

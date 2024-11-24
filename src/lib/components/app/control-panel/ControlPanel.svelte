@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
-	import { gameState } from '$lib/state.svelte';
+	import { useGameState } from '$lib/state.svelte';
 	import { InputMode } from '$lib/types';
 	import Pencil2 from 'svelte-radix/Pencil2.svelte';
 	import Reset from 'svelte-radix/Reset.svelte';
 	import DifficultySelection from './DifficultySelection.svelte';
 	import NumberPad from './NumberPad.svelte';
 	import ModeToggle from './ThemeSwitcher.svelte';
+
+	const gameState = useGameState();
 </script>
 
 <div class="flex h-full max-w-72 flex-col justify-between rounded-sm">

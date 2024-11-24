@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { gameState } from '$lib/state.svelte';
+	import { useGameState } from '$lib/state.svelte';
 	import type { Cell } from '$lib/types';
 	import { cn, isSameBox } from '$lib/utils';
+
+	const gameState = useGameState();
 
 	type Props = {
 		cell: Cell;

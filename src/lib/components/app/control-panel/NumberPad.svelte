@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
-	import { gameState } from '$lib/state.svelte';
+	import { useGameState } from '$lib/state.svelte';
 
+	const gameState = useGameState();
 	const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 </script>
 
