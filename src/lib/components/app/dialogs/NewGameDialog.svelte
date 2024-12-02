@@ -25,10 +25,10 @@
 			<Dialog.Title>Start a new game?</Dialog.Title>
 		</Dialog.Header>
 		<Dialog.Description>
-			<p>You will lose all your progress on the current board. Are you sure?</p>
+			<p>You will lose all your progress in the current game. Are you sure?</p>
 		</Dialog.Description>
 		<Dialog.Footer>
-			<Button variant="outline" onclick={startNewGame}>Absolutely!</Button>
+			<Button variant="outline" onclick={startNewGame}>Yes, I'm sure</Button>
 			<Button onclick={keepPlaying}>Keep Playing</Button>
 		</Dialog.Footer>
 	</Dialog.Content>
