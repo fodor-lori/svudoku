@@ -3,20 +3,22 @@
 	import type { Cell } from '$lib/types';
 	import { cn, isSameBox } from '$lib/utils';
 
-	const gameState = useGameState();
-	const cages = gameState.grid.cages;
-
 	type Props = {
 		cell: Cell;
 	};
 
 	const { cell }: Props = $props();
 
-	const cage = cages?.find((cage) => {
-		if (cage.cells.some((c) => c.row === cell.row && c.col === cell.col)) {
-			return cage;
-		}
-	});
+	const gameState = useGameState();
+	const cages = $derived(gameState.grid.cages);
+
+	let cage = $derived(
+		cages?.find((cage) => {
+			if (cage.cells.some((c) => c.row === cell.row && c.col === cell.col)) {
+				return cage;
+			}
+		})
+	);
 
 	let isCorrect = $state(false);
 	let background = $state('');
