@@ -81,7 +81,7 @@
 	{:else}
 		<div
 			class={cn(
-				'h-full w-full border-dashed border-white',
+				'flex h-[90%] w-[90%] items-center justify-center border-dashed border-white',
 				cage && !cage.cells.some((c) => c.row == cell.row - 1 && c.col == cell.col) && 'border-t',
 				cage && !cage.cells.some((c) => c.row == cell.row + 1 && c.col == cell.col) && 'border-b',
 				cage && !cage.cells.some((c) => c.row == cell.row && c.col == cell.col - 1) && 'border-l',
