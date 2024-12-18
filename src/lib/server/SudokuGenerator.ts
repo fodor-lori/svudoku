@@ -1,25 +1,24 @@
-import type { SudokuData } from '$lib/types';
 import { FilledSudokuGenerator } from './FilledGridGenerator';
 import { Cell } from './models/Cell';
 import { Grid } from './models/Grid';
 import SudokuSolver from './SudokuSolver';
 
 export class SudokuGenerator {
-	private filledGridGenerator: FilledSudokuGenerator;
+	private filledSudokuGenerator: FilledSudokuGenerator;
 	private solver: SudokuSolver;
 	private grid: Grid;
 	private cellsToRemove: number;
 
 	constructor(cellsToRemove: number) {
-		this.filledGridGenerator = new FilledSudokuGenerator();
+		this.filledSudokuGenerator = new FilledSudokuGenerator();
 		this.solver = new SudokuSolver();
 		this.grid = new Grid();
 
 		this.cellsToRemove = cellsToRemove;
 	}
 
-	generate(): SudokuData {
-		const solution = this.filledGridGenerator.generate();
+	generate() {
+		const solution = this.filledSudokuGenerator.generate();
 		this.grid = solution.clone();
 
 		let success = false;
@@ -28,10 +27,7 @@ export class SudokuGenerator {
 			success = this.removeSudokuCell(cells, this.grid);
 		}
 
-		return {
-			puzzle: this.grid.serialize(),
-			solution: solution.serialize()
-		};
+		return this.serialize(solution);
 	}
 
 	private removeSudokuCell(
@@ -72,5 +68,23 @@ export class SudokuGenerator {
 
 	private shuffleCells(cells: Cell[][]): Cell[] {
 		return cells.flat().sort(() => Math.random() - 0.5);
+	}
+
+	private serialize(solution: Grid) {
+		const cells = [];
+
+		for (let row = 0; row < this.grid.cells.length; row++) {
+			for (let col = 0; col < this.grid.cells[row].length; col++) {
+				cells.push({
+					row,
+					col,
+					value: this.grid.cells[row][col].value,
+					solution: solution.cells[row][col].value,
+					isClue: this.grid.cells[row][col].value !== 0
+				});
+			}
+		}
+
+		return { cells };
 	}
 }

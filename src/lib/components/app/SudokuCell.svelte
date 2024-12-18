@@ -4,12 +4,19 @@
 	import { cn, isSameBox } from '$lib/utils';
 
 	const gameState = useGameState();
+	const cages = gameState.grid.cages;
 
 	type Props = {
 		cell: Cell;
 	};
 
 	const { cell }: Props = $props();
+
+	const cage = cages?.find((cage) => {
+		if (cage.cells.some((c) => c.row === cell.row && c.col === cell.col)) {
+			return cage;
+		}
+	});
 
 	let isCorrect = $state(false);
 	let background = $state('');
@@ -72,6 +79,16 @@
 			{/each}
 		</div>
 	{:else}
-		{cell.value || ''}
+		<div
+			class={cn(
+				'h-full w-full border-dashed border-white',
+				cage && !cage.cells.some((c) => c.row == cell.row - 1 && c.col == cell.col) && 'border-t',
+				cage && !cage.cells.some((c) => c.row == cell.row + 1 && c.col == cell.col) && 'border-b',
+				cage && !cage.cells.some((c) => c.row == cell.row && c.col == cell.col - 1) && 'border-l',
+				cage && !cage.cells.some((c) => c.row == cell.row && c.col == cell.col + 1) && 'border-r'
+			)}
+		>
+			{cell.value || ''}
+		</div>
 	{/if}
 </div>

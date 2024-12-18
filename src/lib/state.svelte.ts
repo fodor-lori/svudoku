@@ -1,44 +1,52 @@
-import { getContext, setContext } from 'svelte';
-import { InputMode, type Cell, type Difficulty, type Grid, type StateChange } from './types';
-import { isSameBox, fetchNewPuzzle } from './utils';
 import { browser } from '$app/environment';
+import { getContext, setContext } from 'svelte';
+import {
+	InputMode,
+	type Cell,
+	type Difficulty,
+	type Grid,
+	type PuzzleType,
+	type StateChange
+} from './types';
+import { fetchKillerPuzzle, fetchSudokuPuzzle, isSameBox } from './utils';
 
 class GameState {
-	grid: Grid = $state({ cells: [], size: 9, boxSize: 3 });
+	grid: Grid = $state({ cells: [], size: 9, boxSize: 3, cages: [] });
 	currentCell: Cell | null = $state(null);
 	history: StateChange[] = $state([]);
 
 	mistakeCount: number = $state(0);
 	difficulty: Difficulty = $state('easy');
 	inputMode: InputMode = $state(InputMode.VALUE);
+	puzzleType: PuzzleType = $state('killer');
 
 	isGameOverDialogOpen: boolean = $state(false);
 	isNewGameDialogOpen: boolean = $state(false);
 
 	constructor() {
-		if (browser) {
-			const savedState = localStorage.getItem('game-state');
-
-			if (savedState) {
-				const parsedState = JSON.parse(savedState);
-				this.grid = parsedState.grid;
-				this.history = parsedState.history;
-				this.mistakeCount = parsedState.mistakeCount;
-			}
-		}
-
-		$effect(() => {
-			if (browser) {
-				localStorage.setItem(
-					'game-state',
-					JSON.stringify({
-						grid: this.grid,
-						history: this.history,
-						mistakeCount: this.mistakeCount
-					})
-				);
-			}
-		});
+		// if (browser) {
+		// 	const savedState = localStorage.getItem('game-state');
+		// 	if (savedState) {
+		// 		const parsedState = JSON.parse(savedState);
+		// 		this.grid = parsedState.grid;
+		// 		this.history = parsedState.history;
+		// 		this.mistakeCount = parsedState.mistakeCount;
+		// 		this.puzzleType = parsedState.puzzleType;
+		// 	}
+		// }
+		// $effect(() => {
+		// 	if (browser) {
+		// 		localStorage.setItem(
+		// 			'game-state',
+		// 			JSON.stringify({
+		// 				grid: this.grid,
+		// 				history: this.history,
+		// 				mistakeCount: this.mistakeCount,
+		// 				puzzleType: this.puzzleType
+		// 			})
+		// 		);
+		// 	}
+		// });
 	}
 
 	setCurrentCell(cell: Cell) {
@@ -50,7 +58,7 @@ class GameState {
 	}
 
 	updateCurrentCellValue(value: number) {
-		if (this.currentCell === null) {
+		if (this.currentCell === null || this.currentCell.isClue) {
 			return;
 		}
 
@@ -153,6 +161,7 @@ class GameState {
 	reset() {
 		this.history = [];
 		this.grid.cells = [];
+		this.grid.cages = [];
 		this.mistakeCount = 0;
 		this.currentCell = null;
 		this.inputMode = InputMode.VALUE;
@@ -160,8 +169,21 @@ class GameState {
 		this.isNewGameDialogOpen = false;
 	}
 
-	async loadNewPuzzle() {
-		const result = await fetchNewPuzzle();
+	async loadPuzzle() {
+		if (this.puzzleType === 'killer') {
+			await this.loadKillerPuzzle();
+		} else {
+			await this.loadSudokuPuzzle();
+		}
+	}
+
+	private async loadSudokuPuzzle() {
+		const result = await fetchSudokuPuzzle();
+		this.grid = result;
+	}
+
+	private async loadKillerPuzzle() {
+		const result = await fetchKillerPuzzle();
 		this.grid = result;
 	}
 }

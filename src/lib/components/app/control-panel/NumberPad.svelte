@@ -16,4 +16,11 @@
 			{number}
 		</Button>
 	{/each}
+	<Button
+		variant="secondary"
+		onclick={() => gameState.updateCurrentCellValue(0)}
+		class="text-md col-span-3 h-12"
+	>
+		Clear
+	</Button>
 </div>

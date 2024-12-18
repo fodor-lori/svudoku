@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 	import { useGameState } from '$lib/state.svelte';
-	import { InputMode } from '$lib/types';
+	import { InputMode, type PuzzleType } from '$lib/types';
 	import Pencil2 from 'svelte-radix/Pencil2.svelte';
 	import Reset from 'svelte-radix/Reset.svelte';
 	import DifficultySelection from './DifficultySelection.svelte';
@@ -13,12 +14,39 @@
 
 <div class="flex h-full max-w-72 flex-col justify-between rounded-sm">
 	<div class="flex flex-col gap-4">
-		<div class="flex flex-col gap-1">
-			<Button class="flex flex-1" onclick={() => (gameState.isNewGameDialogOpen = true)}>
+		<div class="flex flex-col gap-2">
+			<div class="flex flex-col gap-1">
+				<!-- <span class="text-center text-sm text-muted-foreground">Mode</span> -->
+				<ToggleGroup.Root
+					type="single"
+					controlledValue
+					value={gameState.puzzleType}
+					onValueChange={(type) => (gameState.puzzleType = type as PuzzleType)}
+				>
+					<ToggleGroup.Item value="classic" class="flex flex-1 border">Classic</ToggleGroup.Item>
+					<ToggleGroup.Item value="killer" class="flex flex-1 border">Killer</ToggleGroup.Item>
+				</ToggleGroup.Root>
+			</div>
+			<div class="flex flex-row gap-1">
+				<!-- <span class="text-center text-sm text-muted-foreground">Difficulty</span> -->
+				<DifficultySelection />
+				<ModeToggle />
+			</div>
+			<Button
+				class="flex flex-1"
+				onclick={() => {
+					gameState.isNewGameDialogOpen = true;
+				}}
+			>
 				New Game
 			</Button>
-			<DifficultySelection />
 		</div>
+
+		<!-- <div class="flex flex-col items-center gap-1">
+			<p>Mistakes: {gameState.mistakeCount}/3</p>
+		</div> -->
+	</div>
+	<div class="flex flex-col gap-2">
 		<div class="flex gap-1">
 			<Button variant="outline" onclick={() => gameState.undoLastChange()} class="flex flex-1">
 				<Reset class="mr-2" />
@@ -32,12 +60,7 @@
 				<Pencil2 class="mr-2" />
 				Notes
 			</Button>
-			<ModeToggle />
 		</div>
+		<NumberPad />
 	</div>
-
-	<div class="flex flex-col items-center gap-1">
-		<p>Mistakes: {gameState.mistakeCount}/3</p>
-	</div>
-	<NumberPad />
 </div>

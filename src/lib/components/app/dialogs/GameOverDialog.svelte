@@ -7,7 +7,7 @@
 
 	function startNewGame() {
 		gameState.reset();
-		gameState.loadNewPuzzle();
+		gameState.loadPuzzle();
 	}
 
 	function keepPlaying() {
