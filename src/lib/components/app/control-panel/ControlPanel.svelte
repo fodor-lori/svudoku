@@ -16,19 +16,21 @@
 	<div class="flex flex-col gap-4">
 		<div class="flex flex-col gap-2">
 			<div class="flex flex-col gap-1">
-				<!-- <span class="text-center text-sm text-muted-foreground">Mode</span> -->
 				<ToggleGroup.Root
 					type="single"
 					controlledValue
 					value={gameState.puzzleType}
-					onValueChange={(type) => (gameState.puzzleType = type as PuzzleType)}
+					onValueChange={(type) => {
+						// TODO: fix this, because it doesn't work as expected due to type inference (most likely)
+						gameState.puzzleType = type as PuzzleType;
+						gameState.isNewGameDialogOpen = true;
+					}}
 				>
 					<ToggleGroup.Item value="classic" class="flex flex-1 border">Classic</ToggleGroup.Item>
 					<ToggleGroup.Item value="killer" class="flex flex-1 border">Killer</ToggleGroup.Item>
 				</ToggleGroup.Root>
 			</div>
 			<div class="flex flex-row gap-1">
-				<!-- <span class="text-center text-sm text-muted-foreground">Difficulty</span> -->
 				<DifficultySelection />
 				<ModeToggle />
 			</div>
@@ -41,10 +43,6 @@
 				New Game
 			</Button>
 		</div>
-
-		<!-- <div class="flex flex-col items-center gap-1">
-			<p>Mistakes: {gameState.mistakeCount}/3</p>
-		</div> -->
 	</div>
 	<div class="flex flex-col gap-2">
 		<div class="flex gap-1">

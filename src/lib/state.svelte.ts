@@ -18,7 +18,7 @@ class GameState {
 	mistakeCount: number = $state(0);
 	difficulty: Difficulty = $state('easy');
 	inputMode: InputMode = $state(InputMode.VALUE);
-	puzzleType: PuzzleType = $state('killer');
+	puzzleType: PuzzleType = $state('classic');
 
 	isGameOverDialogOpen: boolean = $state(false);
 	isNewGameDialogOpen: boolean = $state(false);
@@ -128,6 +128,15 @@ class GameState {
 
 	resetCurrentCell() {
 		if (this.currentCell && !this.currentCell.isClue) {
+			this.history.push({
+				target: {
+					...this.currentCell,
+					notes: [...this.currentCell.notes]
+				},
+				type: InputMode.VALUE,
+				affectedCells: [] as Cell[]
+			});
+
 			this.currentCell.value = 0;
 			this.currentCell.notes = [];
 		}

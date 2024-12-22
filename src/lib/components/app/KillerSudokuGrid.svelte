@@ -5,7 +5,7 @@
 	const gameState = useGameState();
 </script>
 
-<div class="grid grid-cols-9 grid-rows-9 gap-1">
+<div class="gap-.5 grid grid-cols-9 grid-rows-9">
 	{#each gameState.grid.cells as row}
 		{#each row as cell}
 			<SudokuCell {cell} />
