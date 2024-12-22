@@ -48,12 +48,13 @@
 
 	const isTopLeftMostCell = $derived(() => {
 		if (!cage) return false;
-		for (const c of cage.cells) {
-			if (c.col < cell.col || c.row < cell.row) {
-				return false;
-			}
-		}
-		return true;
+		const sortedCells = [...cage.cells].sort((a, b) => {
+			if (a.row !== b.row) return a.row - b.row;
+			return a.col - b.col;
+		});
+
+		const topLeftCell = sortedCells[0];
+		return topLeftCell.row === cell.row && topLeftCell.col === cell.col;
 	});
 </script>
 
