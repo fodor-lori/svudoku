@@ -98,7 +98,7 @@ export class KillerSudokuGenerator {
 					col: cell.col,
 					value: 0,
 					solution: solution.cells[cell.row][cell.col].value,
-					isClue: solution.cells[cell.row][cell.col].value !== 0
+					isClue: false
 				}))
 			});
 		}

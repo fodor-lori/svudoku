@@ -10,10 +10,8 @@
 	const { cell }: Props = $props();
 
 	const gameState = useGameState();
-	const cages = $derived(gameState.grid.cages);
-
-	let cage = $derived(
-		cages?.find((cage) => {
+	const cage = $derived(
+		gameState.grid.cages?.find((cage) => {
 			if (cage.cells.some((c) => c.row === cell.row && c.col === cell.col)) {
 				return cage;
 			}
@@ -47,6 +45,16 @@
 			background = '';
 		}
 	});
+
+	const isTopLeftMostCell = $derived(() => {
+		if (!cage) return false;
+		for (const c of cage.cells) {
+			if (c.col < cell.col || c.row < cell.row) {
+				return false;
+			}
+		}
+		return true;
+	});
 </script>
 
 <!--
@@ -57,7 +65,7 @@
 -->
 <div
 	class={cn(
-		'flex aspect-square select-none items-center justify-center rounded-sm border text-[36px]',
+		'flex aspect-square h-full w-full select-none rounded-sm border text-[36px]',
 		cell.row % 3 == 0 && 'border-t-gray-400 dark:border-t-slate-600',
 		cell.row % 3 == 2 && 'border-b-gray-400 dark:border-b-slate-600',
 		cell.col % 3 == 0 && 'border-l-gray-400 dark:border-l-slate-600',
@@ -67,30 +75,34 @@
 	)}
 	onclick={() => gameState.setCurrentCell(cell)}
 >
-	{#if cell.notes.length > 0}
-		<div class="grid grid-cols-3 grid-rows-3 gap-1.5 text-gray-600 dark:text-gray-400">
-			{#each Array.from<number>({ length: 9 }) as _, index}
-				<span
-					class={cn(
-						'aspect-square text-sm',
-						index + 1 === gameState.currentCell?.value && 'font-bold text-black dark:text-white'
-					)}
-				>
-					{cell.notes.includes(index + 1) ? index + 1 : ''}</span
-				>
-			{/each}
-		</div>
-	{:else}
-		<div
-			class={cn(
-				'flex h-[90%] w-[90%] items-center justify-center border-dashed border-white',
-				cage && !cage.cells.some((c) => c.row == cell.row - 1 && c.col == cell.col) && 'border-t',
-				cage && !cage.cells.some((c) => c.row == cell.row + 1 && c.col == cell.col) && 'border-b',
-				cage && !cage.cells.some((c) => c.row == cell.row && c.col == cell.col - 1) && 'border-l',
-				cage && !cage.cells.some((c) => c.row == cell.row && c.col == cell.col + 1) && 'border-r'
-			)}
-		>
+	<div
+		class={cn(
+			gameState.puzzleType == 'killer' &&
+				'relative flex h-full w-full flex-1 items-center justify-center border-dashed border-white',
+			cage && !cage.cells.some((c) => c.row == cell.row - 1 && c.col == cell.col) && 'border-t-2',
+			cage && !cage.cells.some((c) => c.row == cell.row + 1 && c.col == cell.col) && 'border-b-2',
+			cage && !cage.cells.some((c) => c.row == cell.row && c.col == cell.col - 1) && 'border-l-2',
+			cage && !cage.cells.some((c) => c.row == cell.row && c.col == cell.col + 1) && 'border-r-2'
+		)}
+	>
+		{#if gameState.puzzleType == 'killer' && isTopLeftMostCell()}
+			<span class="absolute left-1 top-0 text-xs text-white">{cage?.sum}</span>
+		{/if}
+		{#if cell.notes.length > 0}
+			<div class="gap-.5 grid grid-cols-3 grid-rows-3 text-gray-600 dark:text-gray-400">
+				{#each Array.from<number>({ length: 9 }) as _, index}
+					<span
+						class={cn(
+							'aspect-square text-sm',
+							index + 1 === gameState.currentCell?.value && 'font-bold text-black dark:text-white'
+						)}
+					>
+						{cell.notes.includes(index + 1) ? index + 1 : ''}</span
+					>
+				{/each}
+			</div>
+		{:else}
 			{cell.value || ''}
-		</div>
-	{/if}
+		{/if}
+	</div>
 </div>

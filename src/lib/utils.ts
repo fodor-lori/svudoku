@@ -34,7 +34,6 @@ export async function fetchKillerPuzzle() {
 				.find((cell: Cell) => cell.row === row && cell.col === col);
 			return {
 				...cell,
-				value: cell?.solution,
 				notes: []
 			};
 		})
