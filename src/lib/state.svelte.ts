@@ -133,7 +133,7 @@ class GameState {
 					...this.currentCell,
 					notes: [...this.currentCell.notes]
 				},
-				type: InputMode.VALUE,
+				type: this.inputMode,
 				affectedCells: [] as Cell[]
 			});
 

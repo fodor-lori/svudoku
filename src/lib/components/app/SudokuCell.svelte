@@ -11,11 +11,9 @@
 
 	const gameState = useGameState();
 	const cage = $derived(
-		gameState.grid.cages?.find((cage) => {
-			if (cage.cells.some((c) => c.row === cell.row && c.col === cell.col)) {
-				return cage;
-			}
-		})
+		gameState.grid.cages?.find((cage) =>
+			cage.cells.some((c) => c.row === cell.row && c.col === cell.col)
+		)
 	);
 
 	let isCorrect = $state(false);
