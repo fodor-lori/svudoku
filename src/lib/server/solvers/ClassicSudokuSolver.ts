@@ -1,7 +1,6 @@
-import { Cell } from './models/Cell';
-import { Grid } from './models/Grid';
+import { Cell, Grid } from '../models';
 
-export default class SudokuSolver {
+export default class ClassicSudokuSolver {
 	private grid: Grid = new Grid();
 
 	private rows: Set<number>[] = [];

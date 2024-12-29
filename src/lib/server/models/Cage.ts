@@ -1,20 +1,20 @@
-import type { Cell } from './Cell';
+import { Cell } from './';
 
-export class Cage {
-	public sum: number;
-	public cells: Cell[];
+export default class Cage {
+	sum: number;
+	cells: Cell[];
 
 	constructor(cells?: Cell[], sum?: number) {
-		this.sum = sum ?? cells?.reduce((sum, cell) => sum + cell.value, 0) ?? 0;
+		this.sum = sum ?? 0;
 		this.cells = cells ?? [];
 	}
 
-	public addCell(cell: Cell) {
+	addCell(cell: Cell): void {
 		this.cells.push(cell);
 		this.sum += cell.value;
 	}
 
-	public removeCell(cell: Cell) {
+	removeCell(cell: Cell): void {
 		this.cells = this.cells.filter((c) => c !== cell);
 		this.sum -= cell.value;
 	}

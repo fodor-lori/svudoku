@@ -18,7 +18,7 @@ class GameState {
 	mistakeCount: number = $state(0);
 	difficulty: Difficulty = $state('easy');
 	inputMode: InputMode = $state(InputMode.VALUE);
-	puzzleType: PuzzleType = $state('classic');
+	puzzleType: PuzzleType = $state('killer');
 
 	isGameOverDialogOpen: boolean = $state(false);
 	isNewGameDialogOpen: boolean = $state(false);

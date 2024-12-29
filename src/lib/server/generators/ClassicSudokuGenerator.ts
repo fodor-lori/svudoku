@@ -1,17 +1,16 @@
-import { FilledSudokuGenerator } from './FilledGridGenerator';
-import { Cell } from './models/Cell';
-import { Grid } from './models/Grid';
-import SudokuSolver from './SudokuSolver';
+import { Cell, Grid } from '../models';
+import { ClassicSudokuSolver } from '../solvers/';
+import FilledGridGenerator from './FilledGridGenerator';
 
-export class SudokuGenerator {
-	private filledSudokuGenerator: FilledSudokuGenerator;
-	private solver: SudokuSolver;
+export default class ClassicSudokuGenerator {
+	private filledSudokuGenerator: FilledGridGenerator;
+	private solver: ClassicSudokuSolver;
 	private grid: Grid;
 	private cellsToRemove: number;
 
 	constructor(cellsToRemove: number) {
-		this.filledSudokuGenerator = new FilledSudokuGenerator();
-		this.solver = new SudokuSolver();
+		this.filledSudokuGenerator = new FilledGridGenerator();
+		this.solver = new ClassicSudokuSolver();
 		this.grid = new Grid();
 
 		this.cellsToRemove = cellsToRemove;
@@ -54,7 +53,7 @@ export class SudokuGenerator {
 		const copy = grid.clone();
 
 		const originalValue = cell.value;
-		copy.setCellValue(cell.row, cell.col, 0);
+		copy.setCell(cell.row, cell.col, 0);
 
 		if (this.solver.hasUniqueSolution(copy)) {
 			if (this.removeSudokuCell(cells, copy, cellIndex + 1, cellsToRemove - 1)) {
@@ -62,7 +61,7 @@ export class SudokuGenerator {
 			}
 		}
 
-		grid.setCellValue(cell.row, cell.col, originalValue);
+		grid.setCell(cell.row, cell.col, originalValue);
 		return this.removeSudokuCell(cells, grid, cellIndex + 1, cellsToRemove);
 	}
 
