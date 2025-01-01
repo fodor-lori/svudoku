@@ -18,21 +18,20 @@ export default class KillerSudokuGenerator {
 
 	generate() {
 		this.grid = this.filledGridGenerator.generate();
-
 		this.cages = [];
-		this.generateCagesByMerging();
 
+		this.generateCages();
 		return this.serialize(this.grid);
 	}
 
-	private generateCagesByMerging() {
+	private generateCages() {
 		const cells = this.grid.cells.flat().sort(() => Math.random() - 0.5);
 		this.cages = cells.map((cell) => new Cage([cell], cell.value));
 		this.backtrack();
 	}
 
 	private backtrack(): boolean {
-		if (this.cages.length <= 35) {
+		if (this.cages.length <= 30) {
 			return true;
 		}
 

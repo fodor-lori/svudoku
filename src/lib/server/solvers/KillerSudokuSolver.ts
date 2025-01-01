@@ -6,7 +6,7 @@ export default class KillerSudokuSolver {
 	private solutionCount = 0;
 
 	solve(cages: Cage[]): boolean {
-		this.cages = cages;
+		this.cages = [...cages];
 		this.initSolver();
 		this.fillSingleCellCages();
 
@@ -19,7 +19,9 @@ export default class KillerSudokuSolver {
 		this.grid = new Grid();
 
 		this.cages.forEach((cage) => {
-			cage.cells.forEach((cell) => (cell.candidates = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9])));
+			cage.cells.forEach(
+				(cell) => (cell.candidates = this.grid.cells[cell.row][cell.col].candidates)
+			);
 		});
 
 		this.cages.sort((a, b) => {
