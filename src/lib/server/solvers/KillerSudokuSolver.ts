@@ -16,8 +16,12 @@ export default class KillerSudokuSolver {
 
 	private initSolver(): void {
 		this.solutionCount = 0;
-
 		this.grid = new Grid();
+
+		this.cages.forEach((cage) => {
+			cage.cells.forEach((cell) => (cell.candidates = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9])));
+		});
+
 		this.cages.sort((a, b) => {
 			if (a.cells.length === b.cells.length) {
 				return a.sum - b.sum;
