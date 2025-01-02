@@ -32,7 +32,6 @@ export default class KillerSudokuSolver {
 			return a.cells.length - b.cells.length;
 		});
 	}
-
 	private solveCage(cageIndex: number): boolean {
 		if (cageIndex >= this.cages.length) {
 			this.solutionCount++;
@@ -42,6 +41,11 @@ export default class KillerSudokuSolver {
 		if (this.solutionCount > 1) {
 			return false;
 		}
+
+		// Possible optimizations:
+		// - Try applying the 45-sum rule to rows/cols/boxes. If applicable, fill in the appropriate cage to reduce search space
+		// - Try to fill all possible 2/3 cell cages that have obvious solutions after 1-cell cages are filled
+		// - Apply sudoku rules after a cell is placed, in case some cell's candidates are reduced to a single value
 
 		const cage = this.cages[cageIndex];
 		const combinations = this.fillCageCombinations(cage);

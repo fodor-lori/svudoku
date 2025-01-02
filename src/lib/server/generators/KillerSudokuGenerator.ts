@@ -30,6 +30,10 @@ export default class KillerSudokuGenerator {
 		this.backtrack();
 	}
 
+	// Possizle optimizations for nicer looking puzzles:
+	// - When nr of cages is approaching the expected max, start prioritizing neighboring 1-cell cages first
+	// - Cap how many 6, 5 and 1 cell cages can there be
+	// - Keep merging or revert backtracking when there are too crowded places (nr. of cages is too high)
 	private backtrack(): boolean {
 		if (this.cages.length <= 30) {
 			return true;
@@ -41,6 +45,12 @@ export default class KillerSudokuGenerator {
 
 			for (const neighbor of neighbors) {
 				const mergedCage = this.mergeCages(cage, neighbor);
+
+				if (mergedCage.cells.length >= 6) {
+					this.unmergeCages(mergedCage, cage, neighbor);
+					continue;
+				}
+
 				const puzzleHasUniqueSolution = this.solver.solve(this.cages);
 
 				if (puzzleHasUniqueSolution) {
