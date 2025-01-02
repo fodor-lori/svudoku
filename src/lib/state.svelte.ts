@@ -15,7 +15,7 @@ class GameState {
 	currentCell: Cell | null = $state(null);
 	history: StateChange[] = $state([]);
 
-	mistakeCount: number = $state(0);
+	// mistakeCount: number = $state(0);
 	difficulty: Difficulty = $state('easy');
 	inputMode: InputMode = $state(InputMode.VALUE);
 	puzzleType: PuzzleType = $state('killer');
@@ -24,29 +24,27 @@ class GameState {
 	isNewGameDialogOpen: boolean = $state(false);
 
 	constructor() {
-		// if (browser) {
-		// 	const savedState = localStorage.getItem('game-state');
-		// 	if (savedState) {
-		// 		const parsedState = JSON.parse(savedState);
-		// 		this.grid = parsedState.grid;
-		// 		this.history = parsedState.history;
-		// 		this.mistakeCount = parsedState.mistakeCount;
-		// 		this.puzzleType = parsedState.puzzleType;
-		// 	}
-		// }
-		// $effect(() => {
-		// 	if (browser) {
-		// 		localStorage.setItem(
-		// 			'game-state',
-		// 			JSON.stringify({
-		// 				grid: this.grid,
-		// 				history: this.history,
-		// 				mistakeCount: this.mistakeCount,
-		// 				puzzleType: this.puzzleType
-		// 			})
-		// 		);
-		// 	}
-		// });
+		if (browser) {
+			const savedState = localStorage.getItem('game-state');
+			if (savedState) {
+				const parsedState = JSON.parse(savedState);
+				this.grid = parsedState.grid;
+				this.history = parsedState.history;
+				this.puzzleType = parsedState.puzzleType;
+			}
+		}
+		$effect(() => {
+			if (browser) {
+				localStorage.setItem(
+					'game-state',
+					JSON.stringify({
+						grid: this.grid,
+						history: this.history,
+						puzzleType: this.puzzleType
+					})
+				);
+			}
+		});
 	}
 
 	setCurrentCell(cell: Cell) {
@@ -97,13 +95,13 @@ class GameState {
 
 		this.history.push(historyEntry);
 
-		if (cell.value !== cell.solution) {
-			this.mistakeCount++;
+		// if (cell.value !== cell.solution) {
+		// 	this.mistakeCount++;
 
-			if (this.mistakeCount === 3) {
-				this.isGameOverDialogOpen = true;
-			}
-		}
+		// 	if (this.mistakeCount === 3) {
+		// 		this.isGameOverDialogOpen = true;
+		// 	}
+		// }
 	}
 
 	updateCurrentCellNotes(note: number) {
@@ -171,7 +169,7 @@ class GameState {
 		this.history = [];
 		this.grid.cells = [];
 		this.grid.cages = [];
-		this.mistakeCount = 0;
+		// this.mistakeCount = 0;
 		this.currentCell = null;
 		this.inputMode = InputMode.VALUE;
 		this.isGameOverDialogOpen = false;
