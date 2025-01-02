@@ -8,7 +8,7 @@ import {
 	type PuzzleType,
 	type StateChange
 } from './types';
-import { fetchKillerPuzzle, fetchSudokuPuzzle, isSameBox } from './utils';
+import { fetchClassicPuzzle, fetchKillerPuzzle, isSameBox } from './utils';
 
 class GameState {
 	grid: Grid = $state({ cells: [], size: 9, boxSize: 3, cages: [] });
@@ -180,12 +180,12 @@ class GameState {
 		if (this.puzzleType === 'killer') {
 			await this.loadKillerPuzzle();
 		} else {
-			await this.loadSudokuPuzzle();
+			await this.loadClassicPuzzle();
 		}
 	}
 
-	private async loadSudokuPuzzle() {
-		const result = await fetchSudokuPuzzle();
+	private async loadClassicPuzzle() {
+		const result = await fetchClassicPuzzle();
 		this.grid = result;
 	}
 

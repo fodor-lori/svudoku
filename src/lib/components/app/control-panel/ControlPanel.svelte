@@ -53,7 +53,7 @@
 						Undo
 					</div>
 					<span class="text-xs text-muted-foreground">
-						(Press <kbd class="ml-1 text-xs font-bold">Z</kbd>)
+						(Press <kbd class="ml-.5 text-xs font-bold">Z</kbd>)
 					</span>
 				</div>
 			</Button>
@@ -68,7 +68,7 @@
 						Notes
 					</div>
 					<span class="text-xs text-muted-foreground">
-						(Press <kbd class="ml-1 text-xs font-bold">Shift</kbd>)
+						(Press <kbd class="ml-.5 text-xs font-bold">Shift</kbd>)
 					</span>
 				</div>
 			</Button>

@@ -21,6 +21,13 @@
 		onclick={() => gameState.updateCurrentCellValue(0)}
 		class="text-md col-span-3 h-12"
 	>
-		Clear
+		<div class="flex flex-col">
+			<span class="text-xs">Clear</span>
+			<span class="text-xs text-muted-foreground"
+				>(Press <kbd class="ml-.5 text-xs font-bold">Backspace</kbd>/<kbd class="text-xs font-bold"
+					>Delete</kbd
+				>)</span
+			>
+		</div>
 	</Button>
 </div>

@@ -6,8 +6,8 @@ export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
 
-export async function fetchSudokuPuzzle() {
-	const response = await fetch('/api/sudoku/generate');
+export async function fetchClassicPuzzle() {
+	const response = await fetch('/api/classic/generate');
 	const { cells } = await response.json();
 
 	const serialized = Array.from({ length: 9 }, (_, row) =>
@@ -27,11 +27,10 @@ export async function fetchKillerPuzzle() {
 	const response = await fetch('/api/killer/generate');
 	const { cages }: { cages: Cage[] } = await response.json();
 
+	const allCells = cages.flatMap((cage) => cage.cells);
 	const cells = Array.from({ length: 9 }, (_, row) =>
 		Array.from({ length: 9 }, (_, col) => {
-			const cell = cages
-				.flatMap((cage) => cage.cells)
-				.find((cell: Cell) => cell.row === row && cell.col === col);
+			const cell = allCells.find((cell) => cell.row === row && cell.col === col);
 			return {
 				...cell,
 				notes: []
