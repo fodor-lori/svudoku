@@ -15,11 +15,11 @@ class GameState {
 	currentCell: Cell | null = $state(null);
 	history: StateChange[] = $state([]);
 
-	// mistakeCount: number = $state(0);
 	difficulty: Difficulty = $state('easy');
 	inputMode: InputMode = $state(InputMode.VALUE);
 	puzzleType: PuzzleType = $state('killer');
 
+	isBoardLoading: boolean = $state(false);
 	isGameOverDialogOpen: boolean = $state(false);
 	isNewGameDialogOpen: boolean = $state(false);
 
@@ -94,14 +94,6 @@ class GameState {
 		});
 
 		this.history.push(historyEntry);
-
-		// if (cell.value !== cell.solution) {
-		// 	this.mistakeCount++;
-
-		// 	if (this.mistakeCount === 3) {
-		// 		this.isGameOverDialogOpen = true;
-		// 	}
-		// }
 	}
 
 	updateCurrentCellNotes(note: number) {
@@ -169,7 +161,6 @@ class GameState {
 		this.history = [];
 		this.grid.cells = [];
 		this.grid.cages = [];
-		// this.mistakeCount = 0;
 		this.currentCell = null;
 		this.inputMode = InputMode.VALUE;
 		this.isGameOverDialogOpen = false;
@@ -185,13 +176,17 @@ class GameState {
 	}
 
 	private async loadClassicPuzzle() {
+		this.isBoardLoading = true;
 		const result = await fetchClassicPuzzle();
 		this.grid = result;
+		this.isBoardLoading = false;
 	}
 
 	private async loadKillerPuzzle() {
+		this.isBoardLoading = true;
 		const result = await fetchKillerPuzzle();
 		this.grid = result;
+		this.isBoardLoading = false;
 	}
 }
 
