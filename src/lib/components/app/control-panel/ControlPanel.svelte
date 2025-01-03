@@ -21,7 +21,7 @@
 					controlledValue
 					value={gameState.puzzleType}
 					onValueChange={(type: string) => {
-						if (type === gameState.puzzleType) return;
+						if (!type || type === gameState.puzzleType) return;
 						gameState.puzzleType = type as PuzzleType;
 						gameState.isNewGameDialogOpen = true;
 					}}
