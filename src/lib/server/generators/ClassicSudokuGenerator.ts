@@ -1,3 +1,4 @@
+import type { Difficulty } from '$lib/types';
 import { Cell, Grid } from '../models';
 import { ClassicSudokuSolver } from '../solvers/';
 import FilledGridGenerator from './FilledGridGenerator';
@@ -8,12 +9,25 @@ export default class ClassicSudokuGenerator {
 	private grid: Grid;
 	private cellsToRemove: number;
 
-	constructor(cellsToRemove: number) {
+	constructor(difficulty: Difficulty) {
 		this.filledSudokuGenerator = new FilledGridGenerator();
 		this.solver = new ClassicSudokuSolver();
 		this.grid = new Grid();
 
-		this.cellsToRemove = cellsToRemove;
+		switch (difficulty) {
+			case 'easy':
+				this.cellsToRemove = 43;
+				break;
+			case 'medium':
+				this.cellsToRemove = 48;
+				break;
+			case 'hard':
+				this.cellsToRemove = 52;
+				break;
+			case 'expert':
+				this.cellsToRemove = 56;
+				break;
+		}
 	}
 
 	generate() {

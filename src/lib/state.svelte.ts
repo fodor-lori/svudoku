@@ -31,6 +31,7 @@ class GameState {
 				this.grid = parsedState.grid;
 				this.history = parsedState.history;
 				this.puzzleType = parsedState.puzzleType;
+				this.difficulty = parsedState.difficulty;
 			}
 		}
 		$effect(() => {
@@ -40,7 +41,8 @@ class GameState {
 					JSON.stringify({
 						grid: this.grid,
 						history: this.history,
-						puzzleType: this.puzzleType
+						puzzleType: this.puzzleType,
+						difficulty: this.difficulty
 					})
 				);
 			}
@@ -177,14 +179,14 @@ class GameState {
 
 	private async loadClassicPuzzle() {
 		this.isBoardLoading = true;
-		const result = await fetchClassicPuzzle();
+		const result = await fetchClassicPuzzle(this.difficulty);
 		this.grid = result;
 		this.isBoardLoading = false;
 	}
 
 	private async loadKillerPuzzle() {
 		this.isBoardLoading = true;
-		const result = await fetchKillerPuzzle();
+		const result = await fetchKillerPuzzle(this.difficulty);
 		this.grid = result;
 		this.isBoardLoading = false;
 	}

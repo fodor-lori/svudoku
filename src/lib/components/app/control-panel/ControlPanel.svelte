@@ -15,21 +15,19 @@
 <div class="flex h-full max-w-72 flex-col justify-between rounded-sm">
 	<div class="flex flex-col gap-4">
 		<div class="flex flex-col gap-2">
-			<div class="flex flex-col gap-1">
-				<ToggleGroup.Root
-					type="single"
-					controlledValue
-					value={gameState.puzzleType}
-					onValueChange={(type: string) => {
-						if (!type || type === gameState.puzzleType) return;
-						gameState.puzzleType = type as PuzzleType;
-						gameState.isNewGameDialogOpen = true;
-					}}
-				>
-					<ToggleGroup.Item value="classic" class="flex flex-1 border">Classic</ToggleGroup.Item>
-					<ToggleGroup.Item value="killer" class="flex flex-1 border">Killer</ToggleGroup.Item>
-				</ToggleGroup.Root>
-			</div>
+			<ToggleGroup.Root
+				type="single"
+				controlledValue
+				value={gameState.puzzleType}
+				onValueChange={(type: string) => {
+					if (!type || type === gameState.puzzleType) return;
+					gameState.puzzleType = type as PuzzleType;
+					gameState.isNewGameDialogOpen = true;
+				}}
+			>
+				<ToggleGroup.Item value="classic" class="flex flex-1 border">Classic</ToggleGroup.Item>
+				<ToggleGroup.Item value="killer" class="flex flex-1 border">Killer</ToggleGroup.Item>
+			</ToggleGroup.Root>
 			<div class="flex flex-row gap-1">
 				<DifficultySelection />
 				<ModeToggle />

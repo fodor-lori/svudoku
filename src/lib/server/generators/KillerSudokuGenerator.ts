@@ -1,3 +1,4 @@
+import type { Difficulty } from '$lib/types';
 import { Cage, Grid } from '../models';
 import KillerSudokuSolver from '../solvers/KillerSudokuSolver';
 import FilledGridGenerator from './FilledGridGenerator';
@@ -6,14 +7,30 @@ export default class KillerSudokuGenerator {
 	private filledGridGenerator: FilledGridGenerator;
 	private solver: KillerSudokuSolver;
 
+	private targetCageCount: number;
 	private cages: Cage[];
 	private grid: Grid;
 
-	constructor() {
+	constructor(difficulty: Difficulty) {
 		this.cages = [];
 		this.grid = new Grid();
 		this.solver = new KillerSudokuSolver();
 		this.filledGridGenerator = new FilledGridGenerator();
+
+		switch (difficulty) {
+			case 'easy':
+				this.targetCageCount = 44;
+				break;
+			case 'medium':
+				this.targetCageCount = 39;
+				break;
+			case 'hard':
+				this.targetCageCount = 34;
+				break;
+			case 'expert':
+				this.targetCageCount = 29;
+				break;
+		}
 	}
 
 	generate() {
@@ -35,7 +52,7 @@ export default class KillerSudokuGenerator {
 	// - Cap how many 6, 5 and 1 cell cages can there be
 	// - Keep merging or revert backtracking when there are too crowded places (nr. of cages is too high)
 	private backtrack(): boolean {
-		if (this.cages.length <= 30) {
+		if (this.cages.length <= this.targetCageCount) {
 			return true;
 		}
 
