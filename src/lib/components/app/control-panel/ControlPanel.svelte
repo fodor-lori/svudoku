@@ -20,8 +20,8 @@
 					type="single"
 					controlledValue
 					value={gameState.puzzleType}
-					onValueChange={(type) => {
-						// TODO: fix this, because it doesn't work as expected due to type inference (most likely)
+					onValueChange={(type: string) => {
+						if (type === gameState.puzzleType) return;
 						gameState.puzzleType = type as PuzzleType;
 						gameState.isNewGameDialogOpen = true;
 					}}
