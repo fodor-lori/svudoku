@@ -25,7 +25,7 @@ export default class ClassicSudokuGenerator {
 				this.cellsToRemove = 52;
 				break;
 			case 'expert':
-				this.cellsToRemove = 1;
+				this.cellsToRemove = 56;
 				break;
 		}
 	}
