@@ -12,7 +12,6 @@
 
 	function keepPlaying() {
 		gameState.isGameOverDialogOpen = false;
-		// gameState.mistakeCount = 0;
 	}
 </script>
 

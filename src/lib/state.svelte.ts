@@ -22,6 +22,7 @@ class GameState {
 	isBoardLoading: boolean = $state(false);
 	isGameOverDialogOpen: boolean = $state(false);
 	isNewGameDialogOpen: boolean = $state(false);
+	isSuccessDialogOpen: boolean = $state(false);
 
 	constructor() {
 		if (browser) {
@@ -96,6 +97,7 @@ class GameState {
 		});
 
 		this.history.push(historyEntry);
+		this.checkIfSolved();
 	}
 
 	updateCurrentCellNotes(note: number) {
@@ -170,25 +172,26 @@ class GameState {
 	}
 
 	async loadPuzzle() {
-		if (this.puzzleType === 'killer') {
-			await this.loadKillerPuzzle();
+		this.isSuccessDialogOpen = false;
+		this.isBoardLoading = true;
+
+		if (this.puzzleType === 'classic') {
+			this.grid = await fetchClassicPuzzle(this.difficulty);
 		} else {
-			await this.loadClassicPuzzle();
+			this.grid = await fetchKillerPuzzle(this.difficulty);
 		}
-	}
 
-	private async loadClassicPuzzle() {
-		this.isBoardLoading = true;
-		const result = await fetchClassicPuzzle(this.difficulty);
-		this.grid = result;
 		this.isBoardLoading = false;
 	}
 
-	private async loadKillerPuzzle() {
-		this.isBoardLoading = true;
-		const result = await fetchKillerPuzzle(this.difficulty);
-		this.grid = result;
-		this.isBoardLoading = false;
+	private checkIfSolved() {
+		for (const c of this.grid.cells.flat()) {
+			if (c.value !== c.solution) {
+				return;
+			}
+		}
+
+		this.isSuccessDialogOpen = true;
 	}
 }
 

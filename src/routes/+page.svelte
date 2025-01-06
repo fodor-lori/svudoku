@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import ControlPanel from '$lib/components/app/control-panel/ControlPanel.svelte';
-	import GameOverDialog from '$lib/components/app/dialogs/GameOverDialog.svelte';
+	import SuccessDialog from '$lib/components/app/dialogs/SuccessDialog.svelte';
 	import NewGameDialog from '$lib/components/app/dialogs/NewGameDialog.svelte';
 	import InputListener from '$lib/components/app/InputListener.svelte';
 	import KillerSudokuGrid from '$lib/components/app/KillerSudokuGrid.svelte';
@@ -35,4 +35,4 @@
 </div>
 
 <NewGameDialog />
-<GameOverDialog />
+<SuccessDialog />
