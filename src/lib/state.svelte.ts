@@ -148,11 +148,14 @@ class GameState {
 			return;
 		}
 
-		this.grid.cells[change.target.row][change.target.col].value = change.target.value;
+		const cell = this.grid.cells[change.target.row][change.target.col];
+		cell.value = change.target.value;
+		cell.notes = [...change.target.notes];
 
 		if (change.affectedCells) {
-			change.affectedCells.forEach((cell) => {
-				this.grid.cells[cell.row][cell.col].notes = [...cell.notes];
+			change.affectedCells.forEach((affected) => {
+				const affectedCell = this.grid.cells[affected.row][affected.col];
+				affectedCell.notes = [...affected.notes];
 			});
 		}
 	}
