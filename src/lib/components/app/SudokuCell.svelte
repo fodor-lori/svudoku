@@ -70,11 +70,11 @@
 -->
 <div
 	class={cn(
-		'flex aspect-square h-full w-full select-none items-center justify-center rounded-sm border text-[36px]',
-		cell.row % 3 == 0 && 'border-t-gray-400 dark:border-t-slate-600',
-		cell.row % 3 == 2 && 'border-b-gray-400 dark:border-b-slate-600',
-		cell.col % 3 == 0 && 'border-l-gray-400 dark:border-l-slate-600',
-		cell.col % 3 == 2 && 'border-r-gray-400 dark:border-r-slate-600',
+		'h-full w-full select-none  border text-2xl md:text-4xl',
+		// cell.row % 3 == 0 && 'border-t-gray-400 dark:border-t-slate-600',
+		cell.row % 3 == 2 && cell.row !== 8 && 'border-b-gray-400 dark:border-b-slate-600',
+		// cell.col % 3 == 0 && 'border-l-gray-400 dark:border-l-slate-600',
+		cell.col % 3 == 2 && cell.col !== 8 && 'border-r-gray-400 dark:border-r-slate-600',
 		!isCorrect && 'text-red-600',
 		background
 	)}
@@ -94,11 +94,12 @@
 			<span class="absolute left-1 top-0 text-xs text-black dark:text-white">{cage?.sum}</span>
 		{/if}
 		{#if cell.notes.length > 0}
-			<div class="gap-.5 grid grid-cols-3 grid-rows-3 text-gray-600 dark:text-gray-400">
+			<div
+				class="grid grid-cols-3 grid-rows-[repeat(3,.75rem)] text-[.75rem] text-gray-600 dark:text-gray-400"
+			>
 				{#each Array.from<number>({ length: 9 }) as _, index}
 					<span
 						class={cn(
-							'aspect-square text-sm',
 							index + 1 === gameState.currentCell?.value && 'font-bold text-black dark:text-white'
 						)}
 					>

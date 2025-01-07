@@ -6,7 +6,33 @@
 	const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 </script>
 
-<div class="grid grid-cols-3 gap-1.5">
+<div class="grid grid-cols-5 gap-1">
+	{#each numbers as number}
+		<Button
+			class="aspect-square h-full"
+			variant="secondary"
+			onclick={() => gameState.updateCurrentCellValue(number)}
+		>
+			{number}
+		</Button>
+	{/each}
+	<Button
+		class="aspect-square h-full"
+		variant="secondary"
+		onclick={() => gameState.updateCurrentCellValue(0)}
+	>
+		<div class="flex flex-col">
+			<span class="text-xs">Clear</span>
+			<span class="hidden text-xs text-muted-foreground md:block"
+				>(Press <kbd class="ml-.5 text-xs font-bold">Backspace</kbd>/<kbd class="text-xs font-bold"
+					>Delete</kbd
+				>)</span
+			>
+		</div>
+	</Button>
+</div>
+
+<!-- <div class="grid grid-cols-3 gap-1.5">
 	{#each numbers as number}
 		<Button
 			variant="secondary"
@@ -30,4 +56,4 @@
 			>
 		</div>
 	</Button>
-</div>
+</div> -->
