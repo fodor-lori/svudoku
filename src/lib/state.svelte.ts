@@ -16,8 +16,8 @@ class GameState {
 	history: StateChange[] = $state([]);
 
 	difficulty: Difficulty = $state('easy');
+	puzzleType: PuzzleType = $state('classic');
 	inputMode: InputMode = $state(InputMode.VALUE);
-	puzzleType: PuzzleType = $state('killer');
 
 	isBoardLoading: boolean = $state(false);
 	isGameOverDialogOpen: boolean = $state(false);
