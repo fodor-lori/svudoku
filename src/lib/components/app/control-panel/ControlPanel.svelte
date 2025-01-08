@@ -28,12 +28,10 @@
 			</Button>
 			<ToggleGroup.Root
 				type="single"
-				controlledValue
 				value={gameState.puzzleType}
 				onValueChange={(type: string) => {
 					if (!type || type === gameState.puzzleType) return;
-					gameState.puzzleType = type as PuzzleType;
-					gameState.isNewGameDialogOpen = true;
+					gameState.newPuzzleType = type as PuzzleType;
 				}}
 			>
 				<ToggleGroup.Item value="classic" class="flex flex-1 border">Classic</ToggleGroup.Item>

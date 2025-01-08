@@ -18,6 +18,7 @@ class GameState {
 	difficulty: Difficulty = $state('easy');
 	newDifficulty: Difficulty | null = $state(null);
 	puzzleType: PuzzleType = $state('classic');
+	newPuzzleType: PuzzleType | null = $state(null);
 	inputMode: InputMode = $state(InputMode.VALUE);
 
 	isBoardLoading: boolean = $state(false);

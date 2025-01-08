@@ -37,17 +37,28 @@
 <HowToPlayDialog />
 
 <ConfirmDialog
-	isOpen={gameState.isNewGameDialogOpen}
+	isOpen={gameState.isNewGameDialogOpen || gameState.newPuzzleType !== null}
 	title="Start a new game?"
 	description="You will lose all your progress in the current game. Are you sure?"
 	confirmText="New game"
 	onConfirm={() => {
+		if (gameState.newPuzzleType) {
+			gameState.puzzleType = gameState.newPuzzleType;
+			gameState.newPuzzleType = null;
+		}
 		gameState.reset();
 		gameState.loadPuzzle();
+		gameState.isNewGameDialogOpen = false;
 	}}
 	cancelText="Keep playing"
-	onCancel={() => (gameState.isNewGameDialogOpen = false)}
-	onEscape={() => (gameState.isNewGameDialogOpen = false)}
+	onCancel={() => {
+		gameState.newPuzzleType = null;
+		gameState.isNewGameDialogOpen = false;
+	}}
+	onEscape={() => {
+		gameState.newPuzzleType = null;
+		gameState.isNewGameDialogOpen = false;
+	}}
 />
 
 <ConfirmDialog
