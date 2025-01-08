@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import ControlPanel from '$lib/components/app/control-panel/ControlPanel.svelte';
-	import SuccessDialog from '$lib/components/app/dialogs/SuccessDialog.svelte';
-	import NewGameDialog from '$lib/components/app/dialogs/NewGameDialog.svelte';
 	import InputListener from '$lib/components/app/InputListener.svelte';
 	import KillerSudokuGrid from '$lib/components/app/KillerSudokuGrid.svelte';
 	import SudokuGrid from '$lib/components/app/SudokuGrid.svelte';
 	import { initGameState } from '$lib/state.svelte';
 	import HowToPlayDialog from '$lib/components/app/dialogs/HowToPlayDialog.svelte';
+	import ConfirmDialog from '$lib/components/app/dialogs/ConfirmDialog.svelte';
 
 	const gameState = initGameState();
 
@@ -35,6 +34,32 @@
 	</div>
 </div>
 
-<NewGameDialog />
-<SuccessDialog />
+<ConfirmDialog
+	title="Start a new game?"
+	description="You will lose all your progress in the current game. Are you sure?"
+	isOpen={gameState.isNewGameDialogOpen}
+	confirmText="New game"
+	onConfirm={() => {
+		gameState.reset();
+		gameState.loadPuzzle();
+	}}
+	cancelText="Keep playing"
+	onCancel={() => (gameState.isNewGameDialogOpen = false)}
+	onEscape={() => (gameState.isNewGameDialogOpen = false)}
+/>
+
+<ConfirmDialog
+	title={['Yaay, you did it! 🎉', 'Good job! 👏🏼', 'Well done! 🥳'][Math.floor(Math.random() * 3)]}
+	description="You solved the puzzle successfully. Would you like to start a new game?"
+	isOpen={gameState.isSuccessDialogOpen}
+	confirmText="New game"
+	onConfirm={() => {
+		gameState.reset();
+		gameState.loadPuzzle();
+	}}
+	cancelText="Stay here"
+	onCancel={() => (gameState.isSuccessDialogOpen = false)}
+	onEscape={() => (gameState.isSuccessDialogOpen = false)}
+/>
+
 <HowToPlayDialog />
