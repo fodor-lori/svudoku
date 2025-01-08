@@ -14,7 +14,18 @@
 
 <div class="flex h-full max-w-72 flex-col justify-between rounded-sm">
 	<div class="flex flex-col gap-4">
-		<div class="flex flex-col gap-2">
+		<div class="flex flex-col gap-1.5">
+			<div class="flex flex-col items-center">
+				<span class="text-center text-2xl font-black">Svudoku</span>
+			</div>
+			<Button
+				class="mt-2 flex flex-1"
+				onclick={() => {
+					gameState.isNewGameDialogOpen = true;
+				}}
+			>
+				New Game
+			</Button>
 			<ToggleGroup.Root
 				type="single"
 				controlledValue
@@ -32,13 +43,8 @@
 				<DifficultySelection />
 				<ModeToggle />
 			</div>
-			<Button
-				class="flex flex-1"
-				onclick={() => {
-					gameState.isNewGameDialogOpen = true;
-				}}
-			>
-				New Game
+			<Button variant="outline" onclick={() => (gameState.isHowToPlayDialogOpen = true)}>
+				How to Play?
 			</Button>
 		</div>
 	</div>

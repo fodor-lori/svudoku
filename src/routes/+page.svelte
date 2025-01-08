@@ -7,6 +7,7 @@
 	import KillerSudokuGrid from '$lib/components/app/KillerSudokuGrid.svelte';
 	import SudokuGrid from '$lib/components/app/SudokuGrid.svelte';
 	import { initGameState } from '$lib/state.svelte';
+	import HowToPlayDialog from '$lib/components/app/dialogs/HowToPlayDialog.svelte';
 
 	const gameState = initGameState();
 
@@ -36,3 +37,4 @@
 
 <NewGameDialog />
 <SuccessDialog />
+<HowToPlayDialog />

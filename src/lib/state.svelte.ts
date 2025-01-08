@@ -23,6 +23,7 @@ class GameState {
 	isGameOverDialogOpen: boolean = $state(false);
 	isNewGameDialogOpen: boolean = $state(false);
 	isSuccessDialogOpen: boolean = $state(false);
+	isHowToPlayDialogOpen: boolean = $state(false);
 
 	constructor() {
 		if (browser) {
