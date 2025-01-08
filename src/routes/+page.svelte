@@ -34,10 +34,12 @@
 	</div>
 </div>
 
+<HowToPlayDialog />
+
 <ConfirmDialog
+	isOpen={gameState.isNewGameDialogOpen}
 	title="Start a new game?"
 	description="You will lose all your progress in the current game. Are you sure?"
-	isOpen={gameState.isNewGameDialogOpen}
 	confirmText="New game"
 	onConfirm={() => {
 		gameState.reset();
@@ -49,9 +51,9 @@
 />
 
 <ConfirmDialog
+	isOpen={gameState.isSuccessDialogOpen}
 	title={['Yaay, you did it! 🎉', 'Good job! 👏🏼', 'Well done! 🥳'][Math.floor(Math.random() * 3)]}
 	description="You solved the puzzle successfully. Would you like to start a new game?"
-	isOpen={gameState.isSuccessDialogOpen}
 	confirmText="New game"
 	onConfirm={() => {
 		gameState.reset();
@@ -62,4 +64,22 @@
 	onEscape={() => (gameState.isSuccessDialogOpen = false)}
 />
 
-<HowToPlayDialog />
+<ConfirmDialog
+	isOpen={gameState.newDifficulty !== null}
+	title={'Start a new game?'}
+	description="Changing difficulty will start a new game and you will lose all your progress in the current one. Are you sure you want to continue?"
+	confirmText="New game"
+	onConfirm={() => {
+		if (!gameState.newDifficulty) {
+			return;
+		}
+
+		gameState.difficulty = gameState.newDifficulty;
+		gameState.newDifficulty = null;
+		gameState.reset();
+		gameState.loadPuzzle();
+	}}
+	cancelText="Keep playing"
+	onCancel={() => (gameState.newDifficulty = null)}
+	onEscape={() => (gameState.newDifficulty = null)}
+/>

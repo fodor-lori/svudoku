@@ -32,7 +32,9 @@
 <Select.Root
 	type="single"
 	name="difficulty"
-	onValueChange={(value) => (gameState.difficulty = value as Difficulty)}
+	onValueChange={(value) => {
+		gameState.newDifficulty = value as Difficulty;
+	}}
 >
 	<Select.Trigger class="w-full">
 		{triggerContent}

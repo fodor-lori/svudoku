@@ -16,11 +16,11 @@ class GameState {
 	history: StateChange[] = $state([]);
 
 	difficulty: Difficulty = $state('easy');
+	newDifficulty: Difficulty | null = $state(null);
 	puzzleType: PuzzleType = $state('classic');
 	inputMode: InputMode = $state(InputMode.VALUE);
 
 	isBoardLoading: boolean = $state(false);
-	isGameOverDialogOpen: boolean = $state(false);
 	isNewGameDialogOpen: boolean = $state(false);
 	isSuccessDialogOpen: boolean = $state(false);
 	isHowToPlayDialogOpen: boolean = $state(false);
@@ -171,7 +171,6 @@ class GameState {
 		this.grid.cages = [];
 		this.currentCell = null;
 		this.inputMode = InputMode.VALUE;
-		this.isGameOverDialogOpen = false;
 		this.isNewGameDialogOpen = false;
 	}
 
