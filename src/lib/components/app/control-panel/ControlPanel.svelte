@@ -48,17 +48,6 @@
 	</div>
 	<div class="flex flex-col gap-2">
 		<div class="flex gap-1">
-			<Button variant="outline" onclick={() => gameState.undoLastChange()} class="flex flex-1 py-6">
-				<div class="flex flex-col items-center">
-					<div class="flex flex-row">
-						<Reset class="mr-2" />
-						Undo
-					</div>
-					<span class="text-xs text-muted-foreground">
-						(Press <kbd class="ml-.5 text-xs font-bold">Z</kbd>)
-					</span>
-				</div>
-			</Button>
 			<Button
 				variant={gameState.inputMode === InputMode.NOTE ? 'secondary' : 'outline'}
 				onclick={() => gameState.toggleInputMode()}
@@ -67,10 +56,21 @@
 				<div class="flex flex-col items-center">
 					<div class="flex flex-row">
 						<Pencil2 class="mr-2" />
-						Notes
+						Pencil
 					</div>
 					<span class="text-xs text-muted-foreground">
 						(Press <kbd class="ml-.5 text-xs font-bold">Shift</kbd>)
+					</span>
+				</div>
+			</Button>
+			<Button variant="outline" onclick={() => gameState.undoLastChange()} class="flex flex-1 py-6">
+				<div class="flex flex-col items-center">
+					<div class="flex flex-row">
+						<Reset class="mr-2" />
+						Undo
+					</div>
+					<span class="text-xs text-muted-foreground">
+						(Press <kbd class="ml-.5 text-xs font-bold">Z</kbd>)
 					</span>
 				</div>
 			</Button>

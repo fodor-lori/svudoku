@@ -26,9 +26,12 @@
 				<ul class="list-disc pl-6">
 					<li>The digits in each row, column and 3x3 box add up to 45.</li>
 					<li>
-						Use the 'Note' toggle to keep track of possible digits in a cell, if you're not sure.
+						The <b>Pencil</b> button switches between normal and note taking mode, letting you keep track
+						of possible digits in a cell if you’re unsure which one is correct.
 					</li>
-					<li>Press 'Undo' if you make a mistake and need to roll back a move.</li>
+					<li>
+						Use the <b>Undo</b> button to revert your most recent placement, be it a digit or a note.
+					</li>
 				</ul>
 
 				<span class="mt-4 text-lg font-bold text-primary">Killer Sudoku</span>
