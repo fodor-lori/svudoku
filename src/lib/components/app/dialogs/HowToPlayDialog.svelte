@@ -17,7 +17,7 @@
 		</Dialog.Header>
 		<Dialog.Description>
 			<div class="flex flex-col gap-1">
-				<span class="text-lg font-bold text-primary">Classic Sudoku</span>
+				<span class="mt-4 text-lg font-bold text-primary">Classic Sudoku</span>
 				<span
 					>Your goal is to fill the 9×9 grid with digits 1-9 so that each row, column and 3x3 box
 					contains all of the digits <b>exactly once</b>.</span
@@ -34,7 +34,7 @@
 					</li>
 				</ul>
 
-				<span class="mt-4 text-lg font-bold text-primary">Killer Sudoku</span>
+				<span class="mt-8 text-lg font-bold text-primary">Killer Sudoku</span>
 				<span
 					>All the Classic Sudoku rules (and tips) apply for Killer puzzles, but you begin with an
 					empty grid where only <b>cages</b> and their <b>target sums</b> are given (shown in their top-left
