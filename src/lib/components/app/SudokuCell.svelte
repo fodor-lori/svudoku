@@ -70,7 +70,7 @@
 -->
 <div
 	class={cn(
-		'flex aspect-square h-full w-full select-none items-center justify-center rounded-sm border text-[36px]',
+		'flex aspect-square h-full w-full select-none items-center justify-center rounded-sm border border-gray-300 text-[36px] dark:border-slate-800',
 		cell.row % 3 == 0 && 'border-t-gray-400 dark:border-t-slate-600',
 		cell.row % 3 == 2 && 'border-b-gray-400 dark:border-b-slate-600',
 		cell.col % 3 == 0 && 'border-l-gray-400 dark:border-l-slate-600',
@@ -94,7 +94,7 @@
 			<span class="absolute left-1 top-0 text-xs text-black dark:text-white">{cage?.sum}</span>
 		{/if}
 		{#if cell.notes.length > 0}
-			<div class="gap-.5 grid grid-cols-3 grid-rows-3 text-gray-600 dark:text-gray-400">
+			<div class="grid grid-cols-3 grid-rows-3 text-gray-600 dark:text-gray-400">
 				{#each Array.from<number>({ length: 9 }) as _, index}
 					<span
 						class={cn(
