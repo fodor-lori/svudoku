@@ -6,7 +6,7 @@ Try it online here: **[Live Demo](https://svudoku.vercel.app/)**
 
 ## SvelteHack 2024
 
-This application has been developed for **[SvelteHack 2024](https://hack.sveltesociety.dev/2024)**, using primarily Svelte 5 and SvelteKit. Honorable mentions go to _Tailwind CSS_ and _shadcn-svelte_ for not really having to worry about UI components and styling.
+This application has been developed for **[SvelteHack 2024](https://hack.sveltesociety.dev/2024)**, using primarily Svelte 5 and SvelteKit. Honorable mentions go to _Tailwind CSS_ and _shadcn-svelte_ for not having to worry about UI components and styling too much, and _Vercel_ for the quick and simple demo deployment.
 
 Yes, the name comes from Svelte + Sudoku. Svelte is a given (seriously, it's fantastic), but why Sudoku?
 
