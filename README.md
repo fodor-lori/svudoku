@@ -1,14 +1,10 @@
 # Svudoku
 
----
-
 ## SvelteHack 2024
 
 This application has been developed for **[SvelteHack 2024](https://hack.sveltesociety.dev/2024)**, using primarily Svelte 5 and SvelteKit. Honorable mentions go to _Tailwind CSS_ and _shadcn-svelte_ for not really having to worry about UI components and styling.
 
 Try it online here: **[Live Demo](https://svudoku.vercel.app/)**
-
----
 
 Yes, the name comes from Svelte + Sudoku. Svelte is a given (seriously, it's fantastic), but why Sudoku?
 
@@ -20,8 +16,6 @@ Then, with the announcement of SvelteHack 2024, I decided to build the Sudoku ap
 
 Enjoy!
 
----
-
 ## Features
 
 - Classic and Killer Sudoku puzzle types
@@ -29,8 +23,6 @@ Enjoy!
 - Self-made puzzle generation (although it's a basic one)
 - Fully playable with keyboard-only controls
 - Light/Dark Mode
-
----
 
 ## Next steps
 
